@@ -30,7 +30,7 @@ while(1):
     thresh_plum = thresh2.copy()
     thresh3 = cv2.inRange(hsv,np.array((40, 150, 160)), np.array((52, 190, 200)))
     thresh_lemon = thresh3.copy()
-    thresh4 = cv2.inRange(hsv,np.array((16, 120, 60)), np.array((36, 200, 255)))
+    thresh4 = cv2.inRange(hsv,np.array((16, 90, 60)), np.array((36, 200, 255)))
     thresh_banana = thresh4.copy()
 
     # find contours in the threshold image
@@ -85,7 +85,7 @@ while(1):
             x, y = pos
             w, h = size
             
-            if 400 < plum_area < 3000:
+            if 600 < plum_area < 4000:
                 if 0.7 < h/w < 1.3:
                     plums.append(cnt)
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
@@ -136,13 +136,16 @@ while(1):
             x, y = pos
             w, h = size
              
-            cv2.drawContours(frame,[box],0,(0,255,0),2)
-            cv2.circle(frame,center,radius,(255,255,255),2)
+
 
             if 200 < banana_area < 3000:
-                if 2 < h/w < 3:
+                if 2.2 < h/w < 2.6:
                     bananas.append(cnt)
-            print h , w , banana_area
+                if 2.2 < w/h < 2.6:
+                    bananas.append(cnt)
+            cv2.drawContours(frame,[box],0,(0,255,0),2)
+            cv2.circle(frame,center,radius,(255,255,255),2)
+            print banana_area
 
     cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
     cv2.drawContours(frame, plums, -1, (255,0,230), 2)
