@@ -266,15 +266,13 @@ while(1):
 
     cv2.imshow('Frame',frame) 
 
+    # TODO: put 4 windows in 1 
     cv2.namedWindow('Strawberries')
     cv2.imshow('Strawberries',thresh_strawberry)
-
     cv2.namedWindow('Plums')   
     cv2.imshow('Plums',thresh_plum)
-
     cv2.namedWindow('Lemons')
     cv2.imshow('Lemons',thresh_lemon)
-    
     cv2.namedWindow('Bananas')
     cv2.imshow('Bananas',thresh_banana)
 
