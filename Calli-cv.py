@@ -144,7 +144,7 @@ while(1):
                     bananas.append(cnt)
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
-                    print banana_area
+                    #print banana_area
 
     cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
     cv2.drawContours(frame, plums, -1, (255,0,230), 2)
@@ -153,6 +153,12 @@ while(1):
 
     if len(strawberries) == 5:
         print "Strawberries!"
+    if len(plums) == 5:
+        print "Plums!"
+    if len(lemons) == 5:
+        print "Lemons!"
+    if len(bananas) == 5:
+        print "Bananas!"
     cv2.imshow('frame',frame)
     cv2.imshow('Strawberries',thresh_strawberry)
     cv2.imshow('Plums',thresh_plum)
