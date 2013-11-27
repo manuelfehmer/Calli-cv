@@ -111,7 +111,7 @@ while(1):
     thresh2 = cv2.inRange(hsv,np.array((164-h_p, lower_s_p, lower_v_p)), np.array((164+h_p, upper_s_p, upper_v_p)))
     thresh_plum = thresh2.copy()
 
-    # read Plum-Trackbars
+    # read Lemon-Trackbars
     h_l = cv2.getTrackbarPos('delta_H_l','Controls')
     lower_s_l = cv2.getTrackbarPos('lower_S_l','Controls')
     upper_s_l = cv2.getTrackbarPos('upper_S_l','Controls')
@@ -120,7 +120,7 @@ while(1):
     thresh3 = cv2.inRange(hsv,np.array((46-h_l, lower_s_l, lower_v_l)), np.array((46+h_l, upper_s_l, upper_v_l)))
     thresh_lemon = thresh3.copy()
 
-    # read Plum-Trackbars
+    # read Banana-Trackbars
     h_b = cv2.getTrackbarPos('delta_H_b','Controls')
     lower_s_b = cv2.getTrackbarPos('lower_S_b','Controls')
     upper_s_b = cv2.getTrackbarPos('upper_S_b','Controls')
@@ -212,6 +212,7 @@ while(1):
                     lemons.append(cnt)
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
+
     #Find Bananas
     bananas = []
     if len(banana_contours) > 0:
@@ -239,7 +240,6 @@ while(1):
                     bananas.append(cnt)
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
-                    #print banana_area
 
     cv2.namedWindow('Frame')
     cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
