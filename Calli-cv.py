@@ -1,3 +1,5 @@
+from __future__ import division
+import math
 import cv2
 import numpy as np
 
@@ -20,36 +22,136 @@ while(1):
 
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
-    thresh1_low = cv2.inRange(hsv,np.array((0, 120, 80)), np.array((5, 240, 255)))
-    thresh1_high = cv2.inRange(hsv,np.array((175, 120, 80)), np.array((180, 240, 255)))
+    thresh1_low = cv2.inRange(hsv,np.array((0, 110, 120)), np.array((6, 255, 255)))
+    thresh1_high = cv2.inRange(hsv,np.array((178, 110, 120)), np.array((180, 255, 255)))
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
-    thresh = thresh1.copy()
+    thresh_strawberry = thresh1.copy()
     thresh2 = cv2.inRange(hsv,np.array((154, 100, 70)), np.array((174, 200, 160)))
+    thresh_plum = thresh2.copy()
     thresh3 = cv2.inRange(hsv,np.array((40, 150, 160)), np.array((52, 190, 200)))
+    thresh_lemon = thresh3.copy()
     thresh4 = cv2.inRange(hsv,np.array((16, 120, 60)), np.array((36, 200, 255)))
+    thresh_banana = thresh4.copy()
 
     # find contours in the threshold image
-    contours,hierarchy = cv2.findContours(thresh1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    strawberry_contours,strawberry_hierarchy = cv2.findContours(thresh1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    plum_contours,plum_hierarchy = cv2.findContours(thresh2,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    lemon_contours,lemon_hierarchy = cv2.findContours(thresh3,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    banana_contours,banana_hierarchy = cv2.findContours(thresh4,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 
-    # finding contour with maximum area and store it as best_cnt
-    if len(contours) > 0:
-        max_area = 0
-        best_cnt = contours[0]
-        for cnt in contours:
-            area = cv2.contourArea(cnt)
-            if area > max_area:
-                max_area = area
-                best_cnt = cnt
-        print best_cnt
+    # Find Strawberries
+    strawberries = []
+    if len(strawberry_contours) > 0:
+        best_cnt = strawberry_contours[0]
+        for cnt in strawberry_contours:
 
-    # finding centroids of best_cnt and draw a circle there
-    M = cv2.moments(best_cnt)
-    cx,cy = int(M['m10']/M['m00']), int(M['m01']/M['m00'])
-    cv2.circle(frame,(cx,cy),5,255,-1)
+            strawberry_area = cv2.contourArea(cnt)
+            strawberry_perimeter = cv2.arcLength(cnt,True)
 
+            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+            center = (int(x_c),int(y_c))
+            radius = int(radius)
+
+            rect = cv2.minAreaRect(cnt)
+            pos, size, theta = rect
+            box = cv2.cv.BoxPoints(rect)
+            box = np.int0(box)
+            x, y = pos
+            w, h = size
+            
+            if 400 < strawberry_area < 3000:
+                if 0.7 < h/w < 1.3:
+                    strawberries.append(cnt)
+                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    #cv2.circle(frame,center,radius,(255,255,255),2)
+            
+    #Find Plums
+    plums = []
+    if len(plum_contours) > 0:
+        best_cnt = plum_contours[0]
+        for cnt in plum_contours:
+
+            plum_area = cv2.contourArea(cnt)
+            plum_perimeter = cv2.arcLength(cnt,True)
+
+            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+            center = (int(x_c),int(y_c))
+            radius = int(radius)
+
+            rect = cv2.minAreaRect(cnt)
+            pos, size, theta = rect
+            box = cv2.cv.BoxPoints(rect)
+            box = np.int0(box)
+            x, y = pos
+            w, h = size
+            
+            if 400 < plum_area < 3000:
+                if 0.7 < h/w < 1.3:
+                    plums.append(cnt)
+                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    #cv2.circle(frame,center,radius,(255,255,255),2)
+
+    #Find Lemons
+    lemons = []
+    if len(lemon_contours) > 0:
+        best_cnt = lemon_contours[0]
+        for cnt in lemon_contours:
+
+            lemon_area = cv2.contourArea(cnt)
+            lemon_perimeter = cv2.arcLength(cnt,True)
+
+            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+            center = (int(x_c),int(y_c))
+            radius = int(radius)
+
+            rect = cv2.minAreaRect(cnt)
+            pos, size, theta = rect
+            box = cv2.cv.BoxPoints(rect)
+            box = np.int0(box)
+            x, y = pos
+            w, h = size
+            
+            if 400 < lemon_area < 3000:
+                if 0.7 < h/w < 1.3:
+                    lemons.append(cnt)
+                    cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    cv2.circle(frame,center,radius,(255,255,255),2)
+    #Find Bananas
+    bananas = []
+    if len(banana_contours) > 0:
+        best_cnt = banana_contours[0]
+        for cnt in banana_contours:
+
+            banana_area = cv2.contourArea(cnt)
+            banana_perimeter = cv2.arcLength(cnt,True)
+
+            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+            center = (int(x_c),int(y_c))
+            radius = int(radius)
+
+            rect = cv2.minAreaRect(cnt)
+            pos, size, theta = rect
+            box = cv2.cv.BoxPoints(rect)
+            box = np.int0(box)
+            x, y = pos
+            w, h = size
+            
+            if 400 < banana_area < 3000:
+                if 0.7 < h/w < 1.3:
+                    bananas.append(cnt)
+                    cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    cv2.circle(frame,center,radius,(255,255,255),2)    
+
+    cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
+    cv2.drawContours(frame, plums, -1, (255,0,230), 2)
+    cv2.drawContours(frame, lemons, -1, (0,255,0), 2)
+    cv2.drawContours(frame, bananas, -1, (0,0,255), 2)
     # Show it, if key pressed is 'Esc', exit the loop
     cv2.imshow('frame',frame)
-    cv2.imshow('thresh',thresh)
+    cv2.imshow('Strawberries',thresh_strawberry)
+    cv2.imshow('Plums',thresh_plum)
+    cv2.imshow('Lemons',thresh_lemon)
+    cv2.imshow('Bananas',thresh_banana)
     if cv2.waitKey(33)== 27:
         break
 
