@@ -1,5 +1,5 @@
 from __future__ import division
-from common import nothing
+from common import nothing, draw_str
 import sys
 import math
 import cv2
@@ -158,6 +158,7 @@ while(1):
             if 400 < strawberry_area < 3000:
                 if 0.7 < h/w < 1.3:
                     strawberries.append(cnt)
+                    draw_str(frame, (int(x), int(y)), str(strawberry_area))
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
             
@@ -184,6 +185,7 @@ while(1):
             if 600 < plum_area < 4000:
                 if 0.7 < h/w < 1.3:
                     plums.append(cnt)
+                    draw_str(frame, (int(x), int(y)), str(plum_area))
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -210,6 +212,7 @@ while(1):
             if 400 < lemon_area < 3000:
                 if 0.7 < h/w < 1.3:
                     lemons.append(cnt)
+                    draw_str(frame, (int(x), int(y)), str(lemon_area))
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -238,6 +241,7 @@ while(1):
                     bananas.append(cnt)
                 if 2.2 < w/h < 2.6:
                     bananas.append(cnt)
+                    draw_str(frame, (int(x), int(y)), str(banana_area))
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -259,6 +263,7 @@ while(1):
     
 
     cv2.namedWindow('Strawberries')
+    draw_str(thresh_strawberry, (20, 20), 'Strawberries')
     cv2.imshow('Strawberries',thresh_strawberry)
     cv2.namedWindow('Plums')   
     cv2.imshow('Plums',thresh_plum)
