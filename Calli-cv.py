@@ -135,17 +135,19 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            
-            if 400 < banana_area < 3000:
-                if 0.7 < h/w < 1.3:
+             
+            cv2.drawContours(frame,[box],0,(0,255,0),2)
+            cv2.circle(frame,center,radius,(255,255,255),2)
+
+            if 200 < banana_area < 3000:
+                if 2 < h/w < 3:
                     bananas.append(cnt)
-                    cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    cv2.circle(frame,center,radius,(255,255,255),2)    
+            print h , w , banana_area
 
     cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
     cv2.drawContours(frame, plums, -1, (255,0,230), 2)
     cv2.drawContours(frame, lemons, -1, (0,255,0), 2)
-    cv2.drawContours(frame, bananas, -1, (0,0,255), 2)
+    cv2.drawContours(frame, bananas, -1, (0,255,255), 2)
     # Show it, if key pressed is 'Esc', exit the loop
     cv2.imshow('frame',frame)
     cv2.imshow('Strawberries',thresh_strawberry)
