@@ -16,30 +16,67 @@ upper_s_s = 200
 lower_v_s = 160
 upper_v_s = 200
 
+lower_s_p = 100
+upper_s_p = 200
+lower_v_p = 70
+upper_v_p = 160
+
+lower_s_l = 150
+upper_s_l = 190
+lower_v_l = 160
+upper_v_l = 200
+
+lower_s_b = 120
+upper_s_b = 200
+lower_v_b = 60
+upper_v_b = 255
 
 # create video capture
 cap = cv2.VideoCapture(0)
 
-cv2.namedWindow('Controls',cv2.CV_WINDOW_AUTOSIZE)
+cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
-cv2.createTrackbar('lower_S_s','Controls',0,180,nothing)
-cv2.createTrackbar('upper_S_s','Controls',0,180,nothing)
-cv2.createTrackbar('lower_V_s','Controls',0,180,nothing)
-cv2.createTrackbar('upper_V_s','Controls',0,180,nothing)
+cv2.createTrackbar('lower_S_s','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_S_s','Controls',lower_s_s)
+cv2.createTrackbar('upper_S_s','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_S_s','Controls',upper_s_s)
+cv2.createTrackbar('lower_V_s','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_V_s','Controls',lower_v_s)
+cv2.createTrackbar('upper_V_s','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_V_s','Controls',upper_v_s)
 # Plum-Color-Control
 cv2.createTrackbar('delta_H_p','Controls',0,30,nothing)
-cv2.createTrackbar('S_p','Controls',0,180,nothing)
-cv2.createTrackbar('V_p','Controls',0,180,nothing)
+cv2.createTrackbar('lower_S_p','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_S_p','Controls',lower_s_p)
+cv2.createTrackbar('upper_S_p','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_S_p','Controls',upper_s_p)
+cv2.createTrackbar('lower_V_p','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_V_p','Controls',lower_v_p)
+cv2.createTrackbar('upper_V_p','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_V_p','Controls',upper_v_p)
 # Lemon-Color-Control
 cv2.createTrackbar('delta_H_l','Controls',0,30,nothing)
-cv2.createTrackbar('S_l','Controls',0,180,nothing)
-cv2.createTrackbar('V_l','Controls',0,180,nothing)
+cv2.createTrackbar('lower_S_l','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_S_l','Controls',lower_s_l)
+cv2.createTrackbar('upper_S_l','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_S_l','Controls',upper_s_l)
+cv2.createTrackbar('lower_V_l','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_V_l','Controls',lower_v_l)
+cv2.createTrackbar('upper_V_l','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_V_l','Controls',upper_v_l)
 # Banana-Color-Control
 cv2.createTrackbar('delta_H_b','Controls',0,30,nothing)
-cv2.createTrackbar('S_b','Controls',0,180,nothing)
-cv2.createTrackbar('V_b','Controls',0,180,nothing)
+cv2.createTrackbar('lower_S_b','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_S_b','Controls',lower_s_b)
+cv2.createTrackbar('upper_S_b','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_S_b','Controls',upper_s_b)
+cv2.createTrackbar('lower_V_b','Controls',0,255,nothing)
+cv2.setTrackbarPos('lower_V_b','Controls',lower_v_b)
+cv2.createTrackbar('upper_V_b','Controls',0,255,nothing)
+cv2.setTrackbarPos('upper_V_b','Controls',upper_v_b)
 cv2.resize
+
 while(1):
 
     # read the frames
@@ -50,7 +87,7 @@ while(1):
 
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
-    # read Strawberry-Trackbar
+    # read Strawberry-Trackbars
     h_s = cv2.getTrackbarPos('delta_H_s','Controls')
     lower_s_s = cv2.getTrackbarPos('lower_S_s','Controls')
     upper_s_s = cv2.getTrackbarPos('upper_S_s','Controls')
@@ -61,13 +98,31 @@ while(1):
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
     thresh_strawberry = thresh1.copy()
 
-    thresh2 = cv2.inRange(hsv,np.array((154, 100, 70)), np.array((174, 200, 160)))
+    # read Plum-Trackbars
+    h_p = cv2.getTrackbarPos('delta_H_p','Controls')
+    lower_s_p = cv2.getTrackbarPos('lower_S_p','Controls')
+    upper_s_p = cv2.getTrackbarPos('upper_S_p','Controls')
+    lower_v_p = cv2.getTrackbarPos('lower_V_p','Controls')
+    upper_v_p = cv2.getTrackbarPos('upper_V_p','Controls')
+    thresh2 = cv2.inRange(hsv,np.array((164-h_p, lower_s_p, lower_v_p)), np.array((164+h_p, upper_s_p, upper_v_p)))
     thresh_plum = thresh2.copy()
 
-    thresh3 = cv2.inRange(hsv,np.array((40, 80, 140)), np.array((52, 200, 200)))
+    # read Plum-Trackbars
+    h_l = cv2.getTrackbarPos('delta_H_l','Controls')
+    lower_s_l = cv2.getTrackbarPos('lower_S_l','Controls')
+    upper_s_l = cv2.getTrackbarPos('upper_S_l','Controls')
+    lower_v_l = cv2.getTrackbarPos('lower_V_l','Controls')
+    upper_v_l = cv2.getTrackbarPos('upper_V_l','Controls')
+    thresh3 = cv2.inRange(hsv,np.array((46-h_l, lower_s_l, lower_v_l)), np.array((46+h_l, upper_s_l, upper_v_l)))
     thresh_lemon = thresh3.copy()
 
-    thresh4 = cv2.inRange(hsv,np.array((16, 100, 60)), np.array((36, 200, 255)))
+    # read Plum-Trackbars
+    h_b = cv2.getTrackbarPos('delta_H_b','Controls')
+    lower_s_b = cv2.getTrackbarPos('lower_S_b','Controls')
+    upper_s_b = cv2.getTrackbarPos('upper_S_b','Controls')
+    lower_v_b = cv2.getTrackbarPos('lower_V_b','Controls')
+    upper_v_b = cv2.getTrackbarPos('upper_V_b','Controls')
+    thresh4 = cv2.inRange(hsv,np.array((26-h_b, lower_s_b, lower_v_b)), np.array((26+h_b, upper_s_b, upper_v_b)))
     thresh_banana = thresh4.copy()
 
     # Filter for Fruit-Thresholds 
