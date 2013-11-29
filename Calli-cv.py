@@ -159,8 +159,8 @@ while(1):
                 if 0.7 < h/w < 1.3:
                     strawberries.append(cnt)
                     draw_str(frame, (int(x)+radius, int(y)), str(strawberry_area))
-                    cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    cv2.circle(frame,center,radius,(255,255,255),2)
+                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    #cv2.circle(frame,center,radius,(255,255,255),2)
             
     #Find Plums
     plums = []
@@ -253,16 +253,16 @@ while(1):
 
     if len(strawberries) == 5:
         print "Strawberries!"
-        #draw_str(frame, (20, 20), "Strawberries!!!!!")
+        draw_str(frame, (20, 20), "Strawberries!!!!!")
     if len(plums) == 5:
         print "Plums!"
-        #raw_str(frame, (20, 20), "Plums!!!!!")
+        raw_str(frame, (20, 20), "Plums!!!!!")
     if len(lemons) == 5:
         print "Lemons!"
-        #raw_str(frame, (20, 20), "Lemons!!!!!")
+        raw_str(frame, (20, 20), "Lemons!!!!!")
     if len(bananas) == 5:
         print "Bananas!"
-        #raw_str(frame, (20, 20), "Bananas!!!!!")
+        raw_str(frame, (20, 20), "Bananas!!!!!")
 
     cv2.imshow('Frame',frame) 
 
