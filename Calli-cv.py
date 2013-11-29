@@ -11,25 +11,25 @@ import numpy as np
 # Lemon         HSV(93,64%,57%) =>(40, 150, 160) (52, 190, 200)     #
 # Banana        HSV(53,72%,69%) =>(16, 120, 60) (36, 200, 255)      #
 
-lower_s_s = 160
-upper_s_s = 200
-lower_v_s = 160
-upper_v_s = 200
+lower_s_s = 118
+upper_s_s = 255
+lower_v_s = 95
+upper_v_s = 255
 
-lower_s_p = 86
-upper_s_p = 230
-lower_v_p = 85
-upper_v_p = 185
+lower_s_p = 151
+upper_s_p = 255
+lower_v_p = 10
+upper_v_p = 252
 
-lower_s_l = 130
-upper_s_l = 185
-lower_v_l = 160
-upper_v_l = 255
+lower_s_l = 135
+upper_s_l = 255
+lower_v_l = 131
+upper_v_l = 206
 
-lower_s_b = 130
-upper_s_b = 245
-lower_v_b = 140
-upper_v_b = 255
+lower_s_b = 65
+upper_s_b = 255
+lower_v_b = 98
+upper_v_b = 210
 
 # create video capture
 try: cap = cv2.VideoCapture(1)
@@ -37,7 +37,7 @@ except:  cap = cv2.VideoCapture(0)
 cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_s','Controls',3)
+cv2.setTrackbarPos('delta_H_s','Controls',7)
 cv2.createTrackbar('lower_S_s','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_s','Controls',lower_s_s)
 cv2.createTrackbar('upper_S_s','Controls',0,255,nothing)
@@ -48,7 +48,7 @@ cv2.createTrackbar('upper_V_s','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_s','Controls',upper_v_s)
 # Plum-Color-Control
 cv2.createTrackbar('delta_H_p','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_p','Controls',6)
+cv2.setTrackbarPos('delta_H_p','Controls',10)
 cv2.createTrackbar('lower_S_p','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_p','Controls',lower_s_p)
 cv2.createTrackbar('upper_S_p','Controls',0,255,nothing)
@@ -59,7 +59,7 @@ cv2.createTrackbar('upper_V_p','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_p','Controls',upper_v_p)
 # Lemon-Color-Control
 cv2.createTrackbar('delta_H_l','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_l','Controls',10)
+cv2.setTrackbarPos('delta_H_l','Controls',5)
 cv2.createTrackbar('lower_S_l','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_l','Controls',lower_s_l)
 cv2.createTrackbar('upper_S_l','Controls',0,255,nothing)
@@ -70,7 +70,7 @@ cv2.createTrackbar('upper_V_l','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_l','Controls',upper_v_l)
 # Banana-Color-Control
 cv2.createTrackbar('delta_H_b','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_b','Controls',4)
+cv2.setTrackbarPos('delta_H_b','Controls',10)
 cv2.createTrackbar('lower_S_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_b','Controls',lower_s_b)
 cv2.createTrackbar('upper_S_b','Controls',0,255,nothing)
