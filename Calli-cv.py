@@ -21,9 +21,9 @@ upper_s_p = 255
 lower_v_p = 10
 upper_v_p = 252
 
-lower_s_l = 135
+lower_s_l = 107
 upper_s_l = 255
-lower_v_l = 131
+lower_v_l = 42
 upper_v_l = 206
 
 lower_s_b = 65
@@ -59,7 +59,7 @@ cv2.createTrackbar('upper_V_p','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_p','Controls',upper_v_p)
 # Lemon-Color-Control
 cv2.createTrackbar('delta_H_l','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_l','Controls',5)
+cv2.setTrackbarPos('delta_H_l','Controls',7)
 cv2.createTrackbar('lower_S_l','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_l','Controls',lower_s_l)
 cv2.createTrackbar('upper_S_l','Controls',0,255,nothing)
@@ -154,13 +154,15 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            
+            roundness = 2 * math.pi * radius - strawberry_perimeter
             if 400 < strawberry_area < 3000:
                 if 0.7 < h/w < 1.3:
-                    strawberries.append(cnt)
-                    draw_str(frame, (int(x)+radius, int(y)), str(strawberry_area))
-                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    #cv2.circle(frame,center,radius,(255,255,255),2)
+                    if -20 < roundness < 5:
+                        strawberries.append(cnt)
+                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
+                        
+                        #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                        #cv2.circle(frame,center,radius,(255,255,255),2)
             
     #Find Plums
     plums = []
@@ -181,13 +183,14 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            
+            roundness = 2 * math.pi * radius - plum_perimeter
             if 600 < plum_area < 4000:
                 if 0.7 < h/w < 1.3:
-                    plums.append(cnt)
-                    draw_str(frame, (int(x)+radius, int(y)), str(plum_area))
-                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    #cv2.circle(frame,center,radius,(255,255,255),2)
+                    if -15 < roundness < 15:
+                        plums.append(cnt)
+                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
+                        #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                        #cv2.circle(frame,center,radius,(255,255,255),2)
 
     #Find Lemons
     lemons = []
@@ -208,13 +211,15 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            
-            if 400 < lemon_area < 3000:
-                if 0.7 < h/w < 1.3:
-                    lemons.append(cnt)
-                    draw_str(frame, (int(x)+radius, int(y)), str(lemon_area))
-                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    #cv2.circle(frame,center,radius,(255,255,255),2)
+            roundness = 2 * math.pi * radius - lemon_perimeter
+            if 700 < lemon_area < 1200:
+                if 0.6 < h/w < 1.4:
+                    if -25 < roundness < 15:
+                        lemons.append(cnt)
+                        #draw_str(frame, (int(x)+radius, int(y)), str(h))
+                        #draw_str(frame, (int(x)+radius, int(y)+12), str(w))
+                        #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                        #cv2.circle(frame,center,radius,(255,255,255),2)
 
     #Find Bananas
     bananas = []
@@ -235,15 +240,19 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-             
-            if 400 < banana_area < 3000:
-                if 2.2 < h/w < 2.6:
-                    bananas.append(cnt)
-                if 2.2 < w/h < 2.6:
-                    bananas.append(cnt)
-                    draw_str(frame, (int(x)+radius, int(y)), str(banana_area))
-                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
+            roundness = 2 * math.pi * radius - banana_perimeter
+            if 400 < banana_area < 1500:
+                if -25 < roundness < 20:
+                    #draw_str(frame, (int(x)+radius, int(y)), str(banana_area))
+                    #draw_str(frame, (int(x)+radius, int(y)+12), str(roundness))
+                    if 1.9 < h/w < 2.4:
+                        bananas.append(cnt)
+                        
+                    if 1.9 < w/h < 2.4:
+                        bananas.append(cnt)
                     #cv2.circle(frame,center,radius,(255,255,255),2)
+                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    
 
     cv2.namedWindow('Frame')
     cv2.drawContours(frame, strawberries, -1, (0,0,255), 2)
@@ -253,28 +262,28 @@ while(1):
 
     if len(strawberries) == 5:
         print "Strawberries!"
-        #draw_str(frame, (20, 20), "Strawberries!!!!!")
+        draw_str(frame, (20, 20), "Strawberries!!!!!")
     if len(plums) == 5:
         print "Plums!"
-        #raw_str(frame, (20, 20), "Plums!!!!!")
+        draw_str(frame, (20, 40), "Plums!!!!!")
     if len(lemons) == 5:
         print "Lemons!"
-        #raw_str(frame, (20, 20), "Lemons!!!!!")
+        draw_str(frame, (20, 60), "Lemons!!!!!")
     if len(bananas) == 5:
         print "Bananas!"
-        #raw_str(frame, (20, 20), "Bananas!!!!!")
+        draw_str(frame, (20, 80), "Bananas!!!!!")
 
     cv2.imshow('Frame',frame) 
 
-    # TODO: put 4 windows in 1 
-    cv2.namedWindow('Strawberries')
-    cv2.imshow('Strawberries',thresh_strawberry)
-    cv2.namedWindow('Plums')   
-    cv2.imshow('Plums',thresh_plum)
-    cv2.namedWindow('Lemons')
-    cv2.imshow('Lemons',thresh_lemon)
-    cv2.namedWindow('Bananas')
-    cv2.imshow('Bananas',thresh_banana)
+    
+    # cv2.namedWindow('Strawberries')
+    # cv2.imshow('Strawberries',thresh_strawberry)
+    # cv2.namedWindow('Plums')   
+    # cv2.imshow('Plums',thresh_plum)
+    # cv2.namedWindow('Lemons')
+    # cv2.imshow('Lemons',thresh_lemon)
+    # cv2.namedWindow('Bananas')
+    # cv2.imshow('Bananas',thresh_banana)
 
     # Show it, if key pressed is 'Esc', exit the loop
     if cv2.waitKey(33)== 27:
