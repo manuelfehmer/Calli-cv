@@ -16,19 +16,19 @@ upper_s_s = 200
 lower_v_s = 160
 upper_v_s = 200
 
-lower_s_p = 100
-upper_s_p = 200
-lower_v_p = 70
-upper_v_p = 160
+lower_s_p = 86
+upper_s_p = 230
+lower_v_p = 85
+upper_v_p = 185
 
-lower_s_l = 150
-upper_s_l = 190
+lower_s_l = 130
+upper_s_l = 185
 lower_v_l = 160
-upper_v_l = 200
+upper_v_l = 255
 
-lower_s_b = 120
-upper_s_b = 200
-lower_v_b = 60
+lower_s_b = 130
+upper_s_b = 245
+lower_v_b = 140
 upper_v_b = 255
 
 # create video capture
@@ -159,8 +159,8 @@ while(1):
                 if 0.7 < h/w < 1.3:
                     strawberries.append(cnt)
                     draw_str(frame, (int(x)+radius, int(y)), str(strawberry_area))
-                    #cv2.drawContours(frame,[box],0,(0,255,0),2)
-                    #cv2.circle(frame,center,radius,(255,255,255),2)
+                    cv2.drawContours(frame,[box],0,(0,255,0),2)
+                    cv2.circle(frame,center,radius,(255,255,255),2)
             
     #Find Plums
     plums = []
@@ -253,16 +253,16 @@ while(1):
 
     if len(strawberries) == 5:
         print "Strawberries!"
-        draw_str(frame, (20, 20), "Strawberries!!!!!")
+        #draw_str(frame, (20, 20), "Strawberries!!!!!")
     if len(plums) == 5:
         print "Plums!"
-        raw_str(frame, (20, 20), "Plums!!!!!")
+        #raw_str(frame, (20, 20), "Plums!!!!!")
     if len(lemons) == 5:
         print "Lemons!"
-        raw_str(frame, (20, 20), "Lemons!!!!!")
+        #raw_str(frame, (20, 20), "Lemons!!!!!")
     if len(bananas) == 5:
         print "Bananas!"
-        raw_str(frame, (20, 20), "Bananas!!!!!")
+        #raw_str(frame, (20, 20), "Bananas!!!!!")
 
     cv2.imshow('Frame',frame) 
 
