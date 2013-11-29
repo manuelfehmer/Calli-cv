@@ -35,6 +35,7 @@ upper_v_b = 210
 try: cap = cv2.VideoCapture(1)
 except:  cap = cv2.VideoCapture(0)
 cv2.namedWindow('Controls')
+
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
 cv2.setTrackbarPos('delta_H_s','Controls',7)
@@ -79,7 +80,7 @@ cv2.createTrackbar('lower_V_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_V_b','Controls',lower_v_b)
 cv2.createTrackbar('upper_V_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_b','Controls',upper_v_b)
-cv2.resize
+
 
 while(1):
 
@@ -188,7 +189,7 @@ while(1):
                 if 0.7 < h/w < 1.3:
                     if -15 < roundness < 15:
                         plums.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
+                        draw_str(frame, (int(x)+radius, int(y)), str(size))
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -212,12 +213,13 @@ while(1):
             x, y = pos
             w, h = size
             roundness = 2 * math.pi * radius - lemon_perimeter
-            if 700 < lemon_area < 1200:
+            if 800 < lemon_area < 1400:
+                draw_str(frame, (int(x)+radius, int(y)), str(lemon_area))
+                draw_str(frame, (int(x)+radius, int(y)+12), str(roundness))
                 if 0.6 < h/w < 1.4:
-                    if -25 < roundness < 15:
+                    if -35 < roundness < 15:
                         lemons.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)), str(h))
-                        #draw_str(frame, (int(x)+radius, int(y)+12), str(w))
+                        
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -263,6 +265,7 @@ while(1):
     if len(strawberries) == 5:
         print "Strawberries!"
         draw_str(frame, (20, 20), "Strawberries!!!!!")
+        
     if len(plums) == 5:
         print "Plums!"
         draw_str(frame, (20, 40), "Plums!!!!!")
