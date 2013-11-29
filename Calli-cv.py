@@ -32,8 +32,8 @@ lower_v_b = 140
 upper_v_b = 255
 
 # create video capture
-cap = cv2.VideoCapture(0)
-
+try: cap = cv2.VideoCapture(1)
+except:  cap = cv2.VideoCapture(0)
 cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
