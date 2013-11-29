@@ -253,16 +253,16 @@ while(1):
 
     if len(strawberries) == 5:
         print "Strawberries!"
-        draw_str(frame, (20, 20), "Strawberries!!!!!")
+        #draw_str(frame, (20, 20), "Strawberries!!!!!")
     if len(plums) == 5:
         print "Plums!"
-        raw_str(frame, (20, 20), "Plums!!!!!")
+        #raw_str(frame, (20, 20), "Plums!!!!!")
     if len(lemons) == 5:
         print "Lemons!"
-        raw_str(frame, (20, 20), "Lemons!!!!!")
+        #raw_str(frame, (20, 20), "Lemons!!!!!")
     if len(bananas) == 5:
         print "Bananas!"
-        raw_str(frame, (20, 20), "Bananas!!!!!")
+        #raw_str(frame, (20, 20), "Bananas!!!!!")
 
     cv2.imshow('Frame',frame) 
 
