@@ -82,7 +82,7 @@ cv2.createTrackbar('lower_V_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_V_b','Controls',lower_v_b)
 cv2.createTrackbar('upper_V_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_b','Controls',upper_v_b)
-
+cv2.namedWindow("Controls", cv2.CV_WINDOW_AUTOSIZE)
 
 while(1):
 
@@ -141,7 +141,6 @@ while(1):
     # Find Strawberries
     strawberries = []
     if len(strawberry_contours) > 0:
-        best_cnt = strawberry_contours[0]
         for cnt in strawberry_contours:
 
             strawberry_area = cv2.contourArea(cnt)
@@ -172,7 +171,6 @@ while(1):
     #Find Plums
     plums = []
     if len(plum_contours) > 0:
-        best_cnt = plum_contours[0]
         for cnt in plum_contours:
 
             plum_area = cv2.contourArea(cnt)
@@ -202,7 +200,6 @@ while(1):
     #Find Lemons
     lemons = []
     if len(lemon_contours) > 0:
-        best_cnt = lemon_contours[0]
         for cnt in lemon_contours:
 
             lemon_area = cv2.contourArea(cnt)
@@ -231,7 +228,6 @@ while(1):
     #Find Bananas
     bananas = []
     if len(banana_contours) > 0:
-        best_cnt = banana_contours[0]
         for cnt in banana_contours:
 
             banana_area = cv2.contourArea(cnt)
@@ -247,7 +243,6 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            roundness = 2 * math.pi * radius - banana_perimeter
             if 600 < banana_area < 1000:
                 # draw_str(frame, (int(x)+radius, int(y)+12), str(size))
                 
