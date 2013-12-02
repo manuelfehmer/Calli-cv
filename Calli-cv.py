@@ -155,12 +155,14 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            roundness = 2 * math.pi * radius - strawberry_perimeter
-            if 400 < strawberry_area < 3000:
+            
+            # roundness = 2 * math.pi * radius - strawberry_perimeter
+            if 700 < strawberry_area < 1300:
                 if 0.7 < h/w < 1.3:
-                    if -20 < roundness < 5:
+                    area_rate = w*h/strawberry_area # 1.6
+                    if 1.4 < area_rate < 1.8:
                         strawberries.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
+                        #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
                         
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
@@ -184,12 +186,14 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            roundness = 2 * math.pi * radius - plum_perimeter
-            if 600 < plum_area < 4000:
+            #roundness = 2 * math.pi * radius - plum_perimeter
+            if 1000 < plum_area < 1600:
                 if 0.7 < h/w < 1.3:
-                    if -15 < roundness < 15:
+                    area_rate = w*h/plum_area # 1.3
+                    #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                    if 1.1 < area_rate < 1.6:
                         plums.append(cnt)
-                        draw_str(frame, (int(x)+radius, int(y)), str(size))
+                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -212,12 +216,14 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            roundness = 2 * math.pi * radius - lemon_perimeter
-            if 800 < lemon_area < 1400:
-                draw_str(frame, (int(x)+radius, int(y)), str(lemon_area))
-                draw_str(frame, (int(x)+radius, int(y)+12), str(roundness))
+            #roundness = 2 * math.pi * radius - lemon_perimeter
+            if 800 < lemon_area < 1500:
+                #draw_str(frame, (int(x)+radius, int(y)), str(lemon_area))
+                
                 if 0.6 < h/w < 1.4:
-                    if -35 < roundness < 15:
+                    area_rate = w*h/lemon_area # 1.2
+                    # draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                    if 0.9 < area_rate < 1.6:
                         lemons.append(cnt)
                         
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
@@ -243,15 +249,17 @@ while(1):
             x, y = pos
             w, h = size
             roundness = 2 * math.pi * radius - banana_perimeter
-            if 400 < banana_area < 1500:
-                if -25 < roundness < 20:
-                    #draw_str(frame, (int(x)+radius, int(y)), str(banana_area))
-                    #draw_str(frame, (int(x)+radius, int(y)+12), str(roundness))
-                    if 1.9 < h/w < 2.4:
+            if 600 < banana_area < 1000:
+                # draw_str(frame, (int(x)+radius, int(y)+12), str(size))
+                
+                if h < w:
+                    w, h = h, w
+                if 1.9 < h/w < 2.4:
+                    area_rate = w*h/banana_area # 1.7
+                    #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                    if 1.5 < area_rate < 2.3:
                         bananas.append(cnt)
-                        
-                    if 1.9 < w/h < 2.4:
-                        bananas.append(cnt)
+
                     #cv2.circle(frame,center,radius,(255,255,255),2)
                     #cv2.drawContours(frame,[box],0,(0,255,0),2)
                     
@@ -263,17 +271,17 @@ while(1):
     cv2.drawContours(frame, bananas, -1, (0,255,255), 2)
 
     if len(strawberries) == 5:
-        print "Strawberries!"
+        #print "Strawberries!"
         draw_str(frame, (20, 20), "Strawberries!!!!!")
         
     if len(plums) == 5:
-        print "Plums!"
+        #print "Plums!"
         draw_str(frame, (20, 40), "Plums!!!!!")
     if len(lemons) == 5:
-        print "Lemons!"
+        #print "Lemons!"
         draw_str(frame, (20, 60), "Lemons!!!!!")
     if len(bananas) == 5:
-        print "Bananas!"
+        #print "Bananas!"
         draw_str(frame, (20, 80), "Bananas!!!!!")
 
     cv2.imshow('Frame',frame) 
