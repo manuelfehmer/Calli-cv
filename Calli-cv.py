@@ -32,10 +32,12 @@ lower_v_b = 98
 upper_v_b = 210
 
 # create video capture
+# try external Webcam
 try: cap = cv2.VideoCapture(1)
+# except internal Webcam
 except:  cap = cv2.VideoCapture(0)
-cv2.namedWindow('Controls')
 
+cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
 cv2.setTrackbarPos('delta_H_s','Controls',7)
@@ -217,15 +219,12 @@ while(1):
             x, y = pos
             w, h = size
             #roundness = 2 * math.pi * radius - lemon_perimeter
-            if 800 < lemon_area < 1500:
-                #draw_str(frame, (int(x)+radius, int(y)), str(lemon_area))
-                
+            if 800 < lemon_area < 1500:             
                 if 0.6 < h/w < 1.4:
                     area_rate = w*h/lemon_area # 1.2
                     # draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
                     if 0.9 < area_rate < 1.6:
                         lemons.append(cnt)
-                        
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -286,7 +285,7 @@ while(1):
 
     cv2.imshow('Frame',frame) 
 
-    
+    # show Thresholdwindow for Fruits
     # cv2.namedWindow('Strawberries')
     # cv2.imshow('Strawberries',thresh_strawberry)
     # cv2.namedWindow('Plums')   
