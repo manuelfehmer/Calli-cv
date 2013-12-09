@@ -26,9 +26,9 @@ upper_s_l = 255
 lower_v_l = 42
 upper_v_l = 206
 
-lower_s_b = 65
+lower_s_b = 50
 upper_s_b = 255
-lower_v_b = 98
+lower_v_b = 0
 upper_v_b = 210
 
 # create video capture
@@ -73,7 +73,7 @@ cv2.createTrackbar('upper_V_l','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_l','Controls',upper_v_l)
 # Banana-Color-Control
 cv2.createTrackbar('delta_H_b','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_b','Controls',10)
+cv2.setTrackbarPos('delta_H_b','Controls',3)
 cv2.createTrackbar('lower_S_b','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_b','Controls',lower_s_b)
 cv2.createTrackbar('upper_S_b','Controls',0,255,nothing)
@@ -90,7 +90,7 @@ while(1):
     _,frame = cap.read()
 
     # smooth it
-    frame = cv2.blur(frame,(3,3))
+    #frame = cv2.blur(frame,(3,3))
 
     hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
 
@@ -129,7 +129,9 @@ while(1):
     upper_s_b = cv2.getTrackbarPos('upper_S_b','Controls')
     lower_v_b = cv2.getTrackbarPos('lower_V_b','Controls')
     upper_v_b = cv2.getTrackbarPos('upper_V_b','Controls')
-    thresh4 = cv2.inRange(hsv,np.array((26-h_b, lower_s_b, lower_v_b)), np.array((26+h_b, upper_s_b, upper_v_b)))
+    thresh4 = cv2.inRange(hsv,np.array((8+h_b, lower_s_b, lower_v_b)), np.array((28+h_b, upper_s_b, upper_v_b)))
+    thresh4 = cv2.blur(thresh4,(3,3))
+    #thresh_banana_dilate = dilate()
     thresh_banana = thresh4.copy()
 
     # Filter for Fruit-Thresholds 
@@ -243,15 +245,15 @@ while(1):
             box = np.int0(box)
             x, y = pos
             w, h = size
-            if 600 < banana_area < 1000:
-                # draw_str(frame, (int(x)+radius, int(y)+12), str(size))
-                
+            if 600 < banana_area < 1300:
+                                
                 if h < w:
                     w, h = h, w
-                if 1.9 < h/w < 2.4:
+                if 1.8 < h/w < 2.5:
+                    #draw_str(frame, (int(x)+radius, int(y)+12), str(banana_area))
                     area_rate = w*h/banana_area # 1.7
                     #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
-                    if 1.5 < area_rate < 2.3:
+                    if 1.3 < area_rate < 2.5:
                         bananas.append(cnt)
 
                     #cv2.circle(frame,center,radius,(255,255,255),2)
@@ -280,15 +282,15 @@ while(1):
 
     cv2.imshow('Frame',frame) 
 
-    # show Thresholdwindow for Fruits
-    # cv2.namedWindow('Strawberries')
-    # cv2.imshow('Strawberries',thresh_strawberry)
-    # cv2.namedWindow('Plums')   
-    # cv2.imshow('Plums',thresh_plum)
-    # cv2.namedWindow('Lemons')
-    # cv2.imshow('Lemons',thresh_lemon)
-    # cv2.namedWindow('Bananas')
-    # cv2.imshow('Bananas',thresh_banana)
+    #show Thresholdwindow for Fruits
+    cv2.namedWindow('Strawberries')
+    cv2.imshow('Strawberries',thresh_strawberry)
+    cv2.namedWindow('Plums')   
+    cv2.imshow('Plums',thresh_plum)
+    cv2.namedWindow('Lemons')
+    cv2.imshow('Lemons',thresh_lemon)
+    cv2.namedWindow('Bananas')
+    cv2.imshow('Bananas',thresh_banana)
 
     # Show it, if key pressed is 'Esc', exit the loop
     if cv2.waitKey(33)== 27:
