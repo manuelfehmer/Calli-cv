@@ -11,9 +11,9 @@ import numpy as np
 # Lemon         HSV(93,64%,57%) =>(40, 150, 160) (52, 190, 200)     #
 # Banana        HSV(53,72%,69%) =>(16, 120, 60) (36, 200, 255)      #
 
-lower_s_s = 118
+lower_s_s = 83
 upper_s_s = 255
-lower_v_s = 95
+lower_v_s = 0
 upper_v_s = 255
 
 lower_s_p = 151
@@ -40,7 +40,7 @@ except:  cap = cv2.VideoCapture(0)
 cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_s','Controls',7)
+cv2.setTrackbarPos('delta_H_s','Controls',12)
 cv2.createTrackbar('lower_S_s','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_s','Controls',lower_s_s)
 cv2.createTrackbar('upper_S_s','Controls',0,255,nothing)
@@ -104,6 +104,7 @@ while(1):
     thresh1_low = cv2.inRange(hsv,np.array((0, lower_s_s, lower_v_s)), np.array((0+h_s, upper_s_s, upper_v_s)))
     thresh1_high = cv2.inRange(hsv,np.array((180-h_s, lower_s_s, lower_v_s)), np.array((180, upper_s_s, upper_v_s)))
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
+    #thresh1 = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)
     thresh_strawberry = thresh1.copy()
 
     # read Plum-Trackbars
