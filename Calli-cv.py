@@ -11,19 +11,19 @@ import numpy as np
 # Lemon         HSV(93,64%,57%) =>(40, 150, 160) (52, 190, 200)     #
 # Banana        HSV(53,72%,69%) =>(16, 120, 60) (36, 200, 255)      #
 
-lower_s_s = 83
+lower_s_s = 142
 upper_s_s = 255
 lower_v_s = 0
 upper_v_s = 255
 
-lower_s_p = 151
+lower_s_p = 0
 upper_s_p = 255
-lower_v_p = 10
-upper_v_p = 252
+lower_v_p = 0
+upper_v_p = 255
 
-lower_s_l = 107
+lower_s_l = 101
 upper_s_l = 255
-lower_v_l = 42
+lower_v_l = 0
 upper_v_l = 206
 
 lower_s_b = 63
@@ -40,7 +40,7 @@ except:  cap = cv2.VideoCapture(0)
 cv2.namedWindow('Controls')
 # Strawberry-Color-Control
 cv2.createTrackbar('delta_H_s','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_s','Controls',12)
+cv2.setTrackbarPos('delta_H_s','Controls',5)
 cv2.createTrackbar('lower_S_s','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_s','Controls',lower_s_s)
 cv2.createTrackbar('upper_S_s','Controls',0,255,nothing)
@@ -51,7 +51,7 @@ cv2.createTrackbar('upper_V_s','Controls',0,255,nothing)
 cv2.setTrackbarPos('upper_V_s','Controls',upper_v_s)
 # Plum-Color-Control
 cv2.createTrackbar('delta_H_p','Controls',0,30,nothing)
-cv2.setTrackbarPos('delta_H_p','Controls',10)
+cv2.setTrackbarPos('delta_H_p','Controls',14)
 cv2.createTrackbar('lower_S_p','Controls',0,255,nothing)
 cv2.setTrackbarPos('lower_S_p','Controls',lower_s_p)
 cv2.createTrackbar('upper_S_p','Controls',0,255,nothing)
@@ -104,7 +104,7 @@ while(1):
     thresh1_low = cv2.inRange(hsv,np.array((0, lower_s_s, lower_v_s)), np.array((0+h_s, upper_s_s, upper_v_s)))
     thresh1_high = cv2.inRange(hsv,np.array((180-h_s, lower_s_s, lower_v_s)), np.array((180, upper_s_s, upper_v_s)))
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
-    #thresh1 = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)
+    thresh1 = cv2.morphologyEx(thresh1, cv2.MORPH_CLOSE, kernel)
     thresh_strawberry = thresh1.copy()
 
     # read Plum-Trackbars
@@ -114,6 +114,9 @@ while(1):
     lower_v_p = cv2.getTrackbarPos('lower_V_p','Controls')
     upper_v_p = cv2.getTrackbarPos('upper_V_p','Controls')
     thresh2 = cv2.inRange(hsv,np.array((164-h_p, lower_s_p, lower_v_p)), np.array((164+h_p, upper_s_p, upper_v_p)))
+    thresh2 = cv2.morphologyEx(thresh2, cv2.MORPH_CLOSE, kernel)
+    thresh2 = cv2.morphologyEx(thresh2, cv2.MORPH_OPEN, kernel)
+    
     thresh_plum = thresh2.copy()
 
     # read Lemon-Trackbars
@@ -123,6 +126,8 @@ while(1):
     lower_v_l = cv2.getTrackbarPos('lower_V_l','Controls')
     upper_v_l = cv2.getTrackbarPos('upper_V_l','Controls')
     thresh3 = cv2.inRange(hsv,np.array((46-h_l, lower_s_l, lower_v_l)), np.array((46+h_l, upper_s_l, upper_v_l)))
+    thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_OPEN, kernel)
+    thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_CLOSE, kernel)
     thresh_lemon = thresh3.copy()
 
     # read Banana-Trackbars
@@ -162,13 +167,15 @@ while(1):
             w, h = size
             
             # roundness = 2 * math.pi * radius - strawberry_perimeter
-            if 700 < strawberry_area < 1300:
-                if 0.7 < h/w < 1.3:
+            if 600 < strawberry_area < 1300:
+                if 0.7 < h/w < 1.4:
                     area_rate = w*h/strawberry_area # 1.6
-                    if 1.4 < area_rate < 1.8:
+                    if 1.3 < area_rate < 1.8:
                         strawberries.append(cnt)
                         #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
-                        
+                        #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
+                        #draw_str(frame, (int(x)+radius, int(y)+24), str(strawberry_area))
+
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
             
@@ -191,13 +198,15 @@ while(1):
             x, y = pos
             w, h = size
             #roundness = 2 * math.pi * radius - plum_perimeter
-            if 1000 < plum_area < 1600:
-                if 0.7 < h/w < 1.3:
+            if 1000 < plum_area < 1700:
+                if 0.6 < h/w < 1.6:
                     area_rate = w*h/plum_area # 1.3
                     #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
-                    if 1.1 < area_rate < 1.6:
+                    if 0.9 < area_rate < 1.6:
                         plums.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)), str(roundness))
+                        #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                        #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
+                        #draw_str(frame, (int(x)+radius, int(y)+24), str(plum_area))
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
                         #cv2.circle(frame,center,radius,(255,255,255),2)
 
@@ -220,10 +229,12 @@ while(1):
             x, y = pos
             w, h = size
             #roundness = 2 * math.pi * radius - lemon_perimeter
-            if 800 < lemon_area < 1500:             
-                if 0.6 < h/w < 1.4:
+            if 600 < lemon_area < 1400:             
+                if 0.6 < h/w < 1.6:
                     area_rate = w*h/lemon_area # 1.2
-                    # draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                    #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                    #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
+                    #draw_str(frame, (int(x)+radius, int(y)+24), str(lemon_area))
                     if 0.9 < area_rate < 1.6:
                         lemons.append(cnt)
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
