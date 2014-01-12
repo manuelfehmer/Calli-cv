@@ -4,25 +4,31 @@
 \section{Programmstruktur}
 \label{sec:Programmstruktur}
 
-Um die einzelnen Früchte sicher detektieren zu können, ist es entscheident zuerst das Ausgangsbild zu filtern und die einzelnen Farben zu extrahieren. Dies geschiet über den HSV - Farbraum. Jede Farbe wird mit Hilfe des Farbwertes (Hue - Wert ), der Farbsättigung (saturation) und der Dunkelstufe / des Hellwertes (value) definiert. Die Beschreibung erfolgt für die unterschiedlichen Farben in folgenden Bereichen:
+\subsection{Kamera}
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück, insofern eine vorhanden ist.
 
-\begin{center}
-\begin{tabular}{ccc}
- & \textbf{Wertebereich} & \textbf{Bereich OpenCV}\\
-\textbf{Farbwert} & Farbwinkel auf dem Farbkreis (z.B. 0 $^\circ$ für rot)  & Bereich OpenCV [0,179]\\
+\subsection{HSV-Raum}
 
-\textbf{Farbsättigung} & Sättigung in Prozent (z.B. 0\% Neutralgrau, 100\% reine Farbe) & Bereich OpenCV [0,255]\\
+Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild gefiltert und in den HSV-Raum übertragen. Die Farben werden einzeln extrahiert. Jede Farbe wird mit Hilfe des Farbwertes (Hue - Wert ), der Farbsättigung (saturation) und der Dunkelstufe / des Hellwertes (value) definiert. Die Beschreibung der Parameter erfolgt in folgenden Bereichen:
 
-\textbf{Hellwert}  & Helligkeit in Prozent (z.B. 0\% keine Helligkeit, 100\% volle Helligkeit) &  Bereich OpenCV [0,255]\\
+\textbf{Farbwert} Farbwinkel auf dem Farbkreis (z.B. 0 $^\circ$ für rot) - Bereich OpenCV [0,179]
 
-\end{tabular}
-\end{center}
+\textbf{Farbsättigung} Sättigung in Prozent (z.B. 0\% Neutralgrau) - Bereich OpenCV [0,255]
 
-\textbf{Farbwert}Farbwinkel auf dem Farbkreis (z.B. 0 $^\circ$ für rot)   Bereich OpenCV [0,179]
+\textbf{Hellwert} Helligkeit in Prozent (z.B.100\% volle Helligkeit) - Bereich OpenCV [0,255]
 
-\textbf{Farbsättigung}Sättigung in Prozent (z.B. 0\% Neutralgrau, 100\% reine Farbe)  Bereich OpenCV [0,255]
+Minimum - und Maximumwert für die Farbbereiche der Früchte können in der Einstellungsphase über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese. 
 
-\textbf{Hellwert}Helligkeit in Prozent (z.B.100\% volle Helligkeit)   Bereich OpenCV [0,255]
+\subsection{Schwellwertverfahren}
+
+Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Frucht gefiltert. Zu jeder Frucht wird ein Binärbild erstellt. Liegt der HSV-Wert eines Pixels im eingestellten Bereich des HSV-Wertes der Frucht, wird ein Pixel dem Segment Frucht zugeordnet. 
+
+\subsection{Filter}
+
+Für jede Frucht wird das Ausgangsbild mit einem Closing und einem Opening gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  
+
+
+
 
 
 %Ich würde sagen hier ruhig den Farbraum erklären, oder? Sollen wir ein Kapitel Hintergründe machen? Also quasi Hintergrundwissen - ?
