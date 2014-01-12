@@ -1,15 +1,20 @@
 % !TEX root = Calli.tex
 % Kapitelvorlage
 
-\section{Programmstruktur}
+\section{Programmstruktur / Methodik}
 \label{sec:Programmstruktur}
 
-\subsection{Kamera}
-Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück, insofern eine vorhanden ist.
+Zum Lösen der Aufgabe wird die Programmiersprache \emph{Python 2.7} verwendet. In Form der Open-Source Library \emph{OpenCV} steht dazu eine leistungsstarke Bibliothek zur Bildverarbeitung zur Verfügung.
+OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Bindings an.
+
+
+\subsection{Vorgehensweise}
+
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. Alternativ kann das Programm auf ein aufgenommenes Bild angewendet werden werden. %Noch einbauen
 
 \subsection{Farbsegmentierung}
 
-Das Ausgangsbild wird nach Farben gefiltert. Dabei entstehen Binärbilder für jede Farbe / Frucht. 
+Das Ausgangsbild wird zunächst nach Farben gefiltert. Dabei entstehen Binärbilder für jede Farbe / Frucht. 
 
 \begin{figure}[h]
     \centering
@@ -46,11 +51,22 @@ Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsb
 
 \subsubsection{Filter}
 
-Für jede Frucht wird das Ausgangsbild mit einem Closing und einem Opening gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  
+Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Opening - Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  \\
+
+%hier sollen die vier Spielkarten (vier Früchte einzeln sein)
+% \includegraphics[height=9cm]{Abbildungen/Erdbeere01}  & \includegraphics[height=9cm]{Abbildungen/Erdbeere01}  \\ 
+
+\begin{center}
+\begin{tabular}{cc}
+\includegraphics[height=10cm]{Abbildungen/Erdbeere01} & \includegraphics[height=10cm]{Abbildungen/Limonen01} \\ 
+\includegraphics[height=10cm]{Abbildungen/Bananen01} & \includegraphics[height=10cm]{Abbildungen/Pflaume01} \\ 
+\end{tabular}
+
+\end{center}
 
 \subsection{Formsegmentierung}
 
-Wenn alle Pixel in den Farben der Früchte entdeckt sind, ist es notwendig die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
+Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es notwendig die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
 
 \textbf{Erdbeere}
 
@@ -88,7 +104,7 @@ Wenn alle Pixel in den Farben der Früchte entdeckt sind, ist es notwendig die F
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
 
-miniale geometrische Formen um die Segmente gelegt und ins Verhältnis zur Größe der Segmente gestellt. 
+Die gefunden Früchte werden gezählt. Wenn genau fünf Früchte von einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. Auf die Glocke fertig - los!
 
 
 
