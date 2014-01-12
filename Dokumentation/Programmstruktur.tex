@@ -7,7 +7,18 @@
 \subsection{Kamera}
 Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück, insofern eine vorhanden ist.
 
-\subsection{HSV-Raum}
+\subsection{Farbsegmentierung}
+
+Das Ausgangsbild wird nach Farben gefiltert. Dabei entstehen Binärbilder für jede Farbe / Frucht. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=10cm]{Abbildungen/Binaerbild01}
+    \caption[Binär01]{Beispielbild mit Binärbildern für jede Frucht}
+    \label{fig:Binär01}
+\end{figure}
+
+\subsubsection{HSV-Raum}
 
 Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild gefiltert und in den HSV-Raum übertragen. Die Farben werden einzeln extrahiert. Jede Farbe wird mit Hilfe des Farbwertes (Hue - Wert ), der Farbsättigung (saturation) und der Dunkelstufe / des Hellwertes (value) definiert. Die Beschreibung der Parameter erfolgt in folgenden Bereichen:
 
@@ -17,15 +28,69 @@ Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgang
 
 \textbf{Hellwert} Helligkeit in Prozent (z.B.100\% volle Helligkeit) - Bereich OpenCV [0,255]
 
-Minimum - und Maximumwert für die Farbbereiche der Früchte können in der Einstellungsphase über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese. 
+Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
 
-\subsection{Schwellwertverfahren}
+Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt. 
+
+\begin{itemize}
+    \item Limone - hellgrün - HSV(93, 64\%, 57\%)
+    \item Erdbeere - rot - HSV(3, 73\%, 70\%)
+    \item Pflaume - lila - HSV(329, 68\%, 45\%)
+    \item Banane - gelb - HSV(53, 72\%, 69\%)
+  
+\end{itemize}
+
+\subsubsection{Schwellwertverfahren}
 
 Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Frucht gefiltert. Zu jeder Frucht wird ein Binärbild erstellt. Liegt der HSV-Wert eines Pixels im eingestellten Bereich des HSV-Wertes der Frucht, wird ein Pixel dem Segment Frucht zugeordnet. 
 
-\subsection{Filter}
+\subsubsection{Filter}
 
 Für jede Frucht wird das Ausgangsbild mit einem Closing und einem Opening gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  
+
+\subsection{Formsegmentierung}
+
+Wenn alle Pixel in den Farben der Früchte entdeckt sind, ist es notwendig die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
+
+\textbf{Erdbeere}
+
+\begin{itemize}
+    \item Größe der Fläche
+    \item Radius des kleinst - möglich umgebenden Kreises
+    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
+    \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
+\end{itemize}
+
+\textbf{Pflaume}
+
+\begin{itemize}
+    \item Größe der Fläche
+    \item Radius des kleinst - möglich umgebenden Kreises
+    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
+     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
+\end{itemize}
+
+\textbf{Limone}
+
+\begin{itemize}
+    \item Größe der Fläche
+    \item Radius des kleinst - möglich umgebenden Kreises
+    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
+     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
+\end{itemize}
+
+\textbf{Banane}
+
+\begin{itemize}
+    \item Größe der Fläche
+    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
+    \item Längenunterschied der Seiten des kleinst - möglich umgebenden Rechteckes
+    \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
+\end{itemize}
+
+miniale geometrische Formen um die Segmente gelegt und ins Verhältnis zur Größe der Segmente gestellt. 
+
+
 
 
 
