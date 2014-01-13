@@ -2,3 +2,5 @@
 *.log
 *.toc
 Dokumentation/Calli.pdf
+*.pyc
+*.pyo
