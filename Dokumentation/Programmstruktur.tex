@@ -138,13 +138,55 @@ Zur Justierung der Parameter werden WErte an den Konturen ausgegeben.
                     #   str(area_rate))
                     # cv2.drawContours(frame,[box],0,(0,255,0),2)
 \end{lstlisting}
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
+    \caption[]{Erkannte Erdbeeren mit ausgegebenen Werten der Konturen}
+    \label{fig:Erdbeeren03}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Abbildungen/Pflaumen03}
+    \caption[]{Erkannte Pflaumen mit ausgegebenen Werten der Konturen}
+    \label{fig:Pflaumen03}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Abbildungen/Limetten03}
+    \caption[]{Erkannte Limonen mit ausgegebenen Werten der Konturen}
+    \label{fig:Limetten03}
+\end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Bananen03}
     \caption[]{Erkannte Bananen mit ausgegebenen Werten der Konturen}
     \label{fig:Bananen03}
 \end{figure}
+
+\subsection{Visualisierung}
+\lstset{language=Python}
+\begin{lstlisting}[]
+    cv2.namedWindow('Frame')
+    cv2.drawContours(frame, strawberries, -1, (0, 0, 255), 2)
+    cv2.drawContours(frame, plums, -1, (255, 0, 230), 2)
+    cv2.drawContours(frame, lemons, -1, (0, 255, 0), 2)
+    cv2.drawContours(frame, bananas, -1, (0, 255, 255), 2)
+
+    if len(strawberries) == 5:
+        # print "Strawberries!"
+        draw_str(frame, (20, 20), "Strawberries!!!!!")
+    if len(plums) == 5:
+        # print "Plums!"
+        draw_str(frame, (20, 40), "Plums!!!!!")
+    if len(lemons) == 5:
+        # print "Lemons!"
+        draw_str(frame, (20, 60), "Lemons!!!!!")
+    if len(bananas) == 5:
+        # print "Bananas!"
+        draw_str(frame, (20, 80), "Bananas!!!!!")
+
+    cv2.imshow('Frame', frame)
+\end{lstlisting}
 
 Die gefunden Früchte werden gezählt. Wenn genau fünf Früchte von einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. Auf die Glocke fertig - los!
 
