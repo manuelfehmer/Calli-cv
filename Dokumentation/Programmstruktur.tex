@@ -7,55 +7,62 @@ Zum Lösen der Aufgabe wird die Programmiersprache \emph{Python 2.7} verwendet. 
 OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Bindings an.
 
 
-\subsection{Vorgehensweise}
+\subsection{Initialisierung}
 
-Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. 
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Laptops zu. 
 
 \lstset{language=Python}
 \begin{lstlisting}[]
-# create video capture
-# try external Webcam
-try: cap = cv2.VideoCapture(1)
-# except internal Webcam
-except:  cap = cv2.VideoCapture(0)
+# try to use an external webcam if possible
+cap = cv2.VideoCapture(1)
+if not cap.isOpened():
+    # use the internal cam
+    cap = cv2.VideoCapture(0)
 \end{lstlisting}
 
-\subsection{Farbsegmentierung}
+\textbf{HSV-Raum}
 
-Das Ausgangsbild wird zunächst nach Farben gefiltert. Dabei entstehen Binärbilder für jede Farbe / Frucht. 
-
-\begin{figure}[h]
+Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild in den HSV-Raum übertragen. Jede Farbe wird mit Hilfe des Farbwinkel (hue) auf dem Farbkreis (z.B. 0$^\circ$/360$^\circ$  für rot), der Farbsättigung (saturation) in Prozent (z.B. 0\% Neutralgrau) und des Hellwertes (value) in Prozent (z.B.100\% volle Helligkeit) definiert.
+\begin{figure}[H]
     \centering
-    \includegraphics[width=10cm]{Abbildungen/Binaerbild01}
-    \caption[Binär01]{Beispielbild mit Binärbildern für jede Frucht}
-    \label{fig:Binär01}
+    \includegraphics[width=0.4\textwidth]{Abbildungen/HSV_color}
+    \caption[HSV]{HSV-Farbraum}
+    \label{fig:HSV-Farbraum}
 \end{figure}
-
-\subsubsection{HSV-Raum}
-
-Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild gefiltert und in den HSV-Raum übertragen. Die Farben werden einzeln extrahiert. Jede Farbe wird mit Hilfe des Farbwertes (Hue - Wert ), der Farbsättigung (saturation) und der Dunkelstufe / des Hellwertes (value) definiert. Die Beschreibung der Parameter erfolgt in folgenden Bereichen:
-
-\textbf{Farbwert} Farbwinkel auf dem Farbkreis (z.B. 0 $^\circ$ für rot) - Bereich OpenCV [0,179]
-
-\textbf{Farbsättigung} Sättigung in Prozent (z.B. 0\% Neutralgrau) - Bereich OpenCV [0,255]
-
-\textbf{Hellwert} Helligkeit in Prozent (z.B.100\% volle Helligkeit) - Bereich OpenCV [0,255]
-
-Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
-
+\begin{lstlisting}[]
+    # read the frames
+    _, frame = cap.read()
+    # transform frame to HSV
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+\end{lstlisting}
+In OpenCV wird der Farbwinkel mit 8Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8Bit von 0 bis 255 dargestellt.
 Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt. 
 
 \begin{itemize}
-    \item Limone - hellgrün - HSV(93, 64\%, 57\%)
     \item Erdbeere - rot - HSV(3, 73\%, 70\%)
     \item Pflaume - lila - HSV(329, 68\%, 45\%)
+    \item Limone - hellgrün - HSV(93, 64\%, 57\%)
     \item Banane - gelb - HSV(53, 72\%, 69\%)
-  
 \end{itemize}
+
+Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
 
 \subsubsection{Schwellwertverfahren}
 
 Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Frucht gefiltert. Zu jeder Frucht wird ein Binärbild erstellt. Liegt der HSV-Wert eines Pixels im eingestellten Bereich des HSV-Wertes der Frucht, wird ein Pixel dem Segment Frucht zugeordnet. 
+\begin{lstlisting}[]
+    # use Threshold for Strawberries
+    thresh1_low = cv2.inRange(
+        hsv,
+        np.array((0, lower_s_s, lower_v_s)),
+        np.array((0 + h_s, upper_s_s, upper_v_s)))
+    thresh1_high = cv2.inRange(
+        hsv,
+        np.array((180 - h_s, lower_s_s, lower_v_s)),
+        np.array((180, upper_s_s, upper_v_s)))
+
+    thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
+\end{lstlisting}
 
 \subsubsection{Filter}
 
@@ -83,6 +90,7 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
     \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
+
 \lstset{language=Python}
 \begin{lstlisting}[]
 # Find Strawberries
