@@ -29,6 +29,7 @@ Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgang
     \caption[HSV]{HSV-Farbraum}
     \label{fig:HSV-Farbraum}
 \end{figure}
+\lstset{language=Python}
 \begin{lstlisting}[]
     # read the frames
     _, frame = cap.read()
@@ -49,7 +50,9 @@ Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibri
 
 \subsubsection{Schwellwertverfahren}
 
-Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Frucht gefiltert. Zu jeder Frucht wird ein Binärbild erstellt. Liegt der HSV-Wert eines Pixels im eingestellten Bereich des HSV-Wertes der Frucht, wird ein Pixel dem Segment Frucht zugeordnet. 
+Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt.
+Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
+\lstset{language=Python}
 \begin{lstlisting}[]
     # use Threshold for Strawberries
     thresh1_low = cv2.inRange(
@@ -68,16 +71,16 @@ Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsb
 
 Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Opening - Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  \\
 
-%hier sollen die vier Spielkarten (vier Früchte einzeln sein)
-% \includegraphics[height=9cm]{Abbildungen/Erdbeere01}  & \includegraphics[height=9cm]{Abbildungen/Erdbeere01}  \\ 
+\textbf{Konturerkennung}
+%beschreibung der Konturerkennung vllt. an Hand der Skrips
 
-\begin{center}
-\begin{tabular}{cc}
-\includegraphics[height=10cm]{Abbildungen/Erdbeere01} & \includegraphics[height=10cm]{Abbildungen/Limonen01} \\ 
-\includegraphics[height=10cm]{Abbildungen/Bananen01} & \includegraphics[height=10cm]{Abbildungen/Pflaume01} \\ 
-\end{tabular}
-
-\end{center}
+\lstset{language=Python}
+\begin{lstlisting}[]
+    strawberry_contours, strawberry_hierarchy = cv2.findContours(
+        thresh1,
+        cv2.RETR_LIST,
+        cv2.CHAIN_APPROX_SIMPLE)
+\end{lstlisting}
 
 \subsection{Formsegmentierung}
 
@@ -130,6 +133,13 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
                         #cv2.drawContours(
                         #   frame,[box],0,(0,255,0),2)
 \end{lstlisting}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
+    \caption[]{Erdbeeren}
+    \label{fig:Erdbeeren03}
+\end{figure}
+
 \textbf{Pflaume}
 
 \begin{itemize}
