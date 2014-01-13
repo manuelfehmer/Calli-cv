@@ -125,7 +125,6 @@ while(1):
         hsv,
         np.array((180-h_s, lower_s_s, lower_v_s)), 
         np.array((180, upper_s_s, upper_v_s)))
-    # 
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
     # Closing
     thresh1 = cv2.morphologyEx(thresh1, cv2.MORPH_CLOSE, kernel)

@@ -9,8 +9,9 @@ OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Binding
 
 \subsection{Vorgehensweise}
 
-Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. %Alternativ kann das Programm auf ein aufgenommenes Bild angewendet werden werden. %Noch einbauen
-\lstset{language=}
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. 
+
+\lstset{language=Python}
 \begin{lstlisting}[]
 # create video capture
 # try external Webcam
@@ -82,7 +83,45 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
     \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
+\lstset{language=Python}
+\begin{lstlisting}[]
+# Find Strawberries
+    strawberries = []
+    if len(strawberry_contours) > 0:
+        for cnt in strawberry_contours:
 
+            strawberry_area = cv2.contourArea(cnt)
+            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+
+            center = (int(x_c),int(y_c))
+            radius = int(radius)
+            rect = cv2.minAreaRect(cnt)
+            pos, size, theta = rect
+            box = cv2.cv.BoxPoints(rect)
+            box = np.int0(box)
+            x, y = pos
+            w, h = size
+            
+            if 600 < strawberry_area < 1300:
+                if 0.7 < h/w < 1.4:
+                    area_rate = w*h/strawberry_area # 1.6
+                    if 1.3 < area_rate < 1.8:
+                        strawberries.append(cnt)
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+12),
+                        #    str(h/w))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+24),
+                        #    str(strawberry_area))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)), 
+                        #   str(area_rate))
+                        #cv2.drawContours(
+                        #   frame,[box],0,(0,255,0),2)
+\end{lstlisting}
 \textbf{Pflaume}
 
 \begin{itemize}
