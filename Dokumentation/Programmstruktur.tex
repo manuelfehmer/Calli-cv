@@ -1,5 +1,4 @@
 % !TEX root = Calli.tex
-% Kapitelvorlage
 
 \section{Programmstruktur / Methodik}
 \label{sec:Programmstruktur}
@@ -10,7 +9,15 @@ OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Binding
 
 \subsection{Vorgehensweise}
 
-Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. Alternativ kann das Programm auf ein aufgenommenes Bild angewendet werden werden. %Noch einbauen
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Computers zurück. %Alternativ kann das Programm auf ein aufgenommenes Bild angewendet werden werden. %Noch einbauen
+\lstset{language=}
+\begin{lstlisting}[]
+# create video capture
+# try external Webcam
+try: cap = cv2.VideoCapture(1)
+# except internal Webcam
+except:  cap = cv2.VideoCapture(0)
+\end{lstlisting}
 
 \subsection{Farbsegmentierung}
 
@@ -72,7 +79,6 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
 
 \begin{itemize}
     \item Größe der Fläche
-    \item Radius des kleinst - möglich umgebenden Kreises
     \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}

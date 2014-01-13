@@ -117,8 +117,14 @@ while(1):
     lower_v_s = cv2.getTrackbarPos('lower_V_s','Controls')
     upper_v_s = cv2.getTrackbarPos('upper_V_s','Controls')
     # use Threshold for Strawberries
-    thresh1_low = cv2.inRange(hsv,np.array((0, lower_s_s, lower_v_s)), np.array((0+h_s, upper_s_s, upper_v_s)))
-    thresh1_high = cv2.inRange(hsv,np.array((180-h_s, lower_s_s, lower_v_s)), np.array((180, upper_s_s, upper_v_s)))
+    thresh1_low = cv2.inRange(
+        hsv,
+        np.array((0, lower_s_s, lower_v_s)), 
+        np.array((0+h_s, upper_s_s, upper_v_s)))
+    thresh1_high = cv2.inRange(
+        hsv,
+        np.array((180-h_s, lower_s_s, lower_v_s)), 
+        np.array((180, upper_s_s, upper_v_s)))
     # 
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
     # Closing
@@ -133,7 +139,10 @@ while(1):
     lower_v_p = cv2.getTrackbarPos('lower_V_p','Controls')
     upper_v_p = cv2.getTrackbarPos('upper_V_p','Controls')
     #use Threshold for Plums
-    thresh2 = cv2.inRange(hsv,np.array((164-h_p, lower_s_p, lower_v_p)), np.array((164+h_p, upper_s_p, upper_v_p)))
+    thresh2 = cv2.inRange(
+        hsv,
+        np.array((164-h_p, lower_s_p, lower_v_p)),
+        np.array((164+h_p, upper_s_p, upper_v_p)))
     # Closing
     thresh2 = cv2.morphologyEx(thresh2, cv2.MORPH_CLOSE, kernel)
     # Opening
@@ -148,7 +157,10 @@ while(1):
     lower_v_l = cv2.getTrackbarPos('lower_V_l','Controls')
     upper_v_l = cv2.getTrackbarPos('upper_V_l','Controls')
     # Threshold for Lemons
-    thresh3 = cv2.inRange(hsv,np.array((46-h_l, lower_s_l, lower_v_l)), np.array((46+h_l, upper_s_l, upper_v_l)))
+    thresh3 = cv2.inRange(
+        hsv,
+        np.array((46-h_l, lower_s_l, lower_v_l)),
+        np.array((46+h_l, upper_s_l, upper_v_l)))
     # Opening
     thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_OPEN, kernel)
     # Closing
@@ -163,7 +175,10 @@ while(1):
     lower_v_b = cv2.getTrackbarPos('lower_V_b','Controls')
     upper_v_b = cv2.getTrackbarPos('upper_V_b','Controls')
     # use Threshold for Bananas
-    thresh4 = cv2.inRange(hsv,np.array((8+h_b, lower_s_b, lower_v_b)), np.array((28+h_b, upper_s_b, upper_v_b)))
+    thresh4 = cv2.inRange(
+        hsv,
+        np.array((8+h_b, lower_s_b, lower_v_b)), 
+        np.array((28+h_b, upper_s_b, upper_v_b)))
     # Opening
     thresh4 = cv2.morphologyEx(thresh4, cv2.MORPH_OPEN, kernel)    
     # Closing
@@ -173,10 +188,22 @@ while(1):
     thresh_banana = thresh4.copy()
 
     # Filter for Fruit-Thresholds 
-    strawberry_contours,strawberry_hierarchy = cv2.findContours(thresh1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-    plum_contours,plum_hierarchy = cv2.findContours(thresh2,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-    lemon_contours,lemon_hierarchy = cv2.findContours(thresh3,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-    banana_contours,banana_hierarchy = cv2.findContours(thresh4,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    strawberry_contours,strawberry_hierarchy = cv2.findContours(
+        thresh1, 
+        cv2.RETR_LIST, 
+        cv2.CHAIN_APPROX_SIMPLE)
+    plum_contours,plum_hierarchy = cv2.findContours(
+        thresh2,
+        cv2.RETR_LIST,
+        cv2.CHAIN_APPROX_SIMPLE)
+    lemon_contours,lemon_hierarchy = cv2.findContours(
+        thresh3,
+        cv2.RETR_LIST,
+        cv2.CHAIN_APPROX_SIMPLE)
+    banana_contours,banana_hierarchy = cv2.findContours(
+        thresh4,
+        cv2.RETR_LIST,
+        cv2.CHAIN_APPROX_SIMPLE)
 
     # Find Strawberries
     strawberries = []
@@ -200,10 +227,20 @@ while(1):
                     area_rate = w*h/strawberry_area # 1.6
                     if 1.3 < area_rate < 1.8:
                         strawberries.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
-                        #draw_str(frame, (int(x)+radius, int(y)+24), str(strawberry_area))
-                        #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
-                        #cv2.drawContours(frame,[box],0,(0,255,0),2)
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+12),
+                        #    str(h/w))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+24),
+                        #    str(strawberry_area))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)), 
+                        #   str(area_rate))
+                        #cv2.drawContours(
+                        #   frame,[box],0,(0,255,0),2)
        
     #Find Plums
     plums = []
@@ -228,9 +265,18 @@ while(1):
                     if 0.9 < area_rate < 1.6:
                         plums.append(cnt)
                         
-                        #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
-                        #draw_str(frame, (int(x)+radius, int(y)+24), str(plum_area))
-                        #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
+                        #draw_str(
+                        #   frame, 
+                        #   (int(x)+radius, int(y)+12), 
+                        #   str(h/w))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+24),
+                        #   str(plum_area))
+                        #draw_str(
+                        #   frame, 
+                        #   (int(x)+radius, int(y)),
+                        #   str(area_rate))
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
 
     #Find Lemons
@@ -255,9 +301,18 @@ while(1):
                     area_rate = w*h/lemon_area # 1.2
                     if 0.9 < area_rate < 1.6:
                         lemons.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)+12), str(h/w))
-                        #draw_str(frame, (int(x)+radius, int(y)), str(area_rate))
-                        #draw_str(frame, (int(x)+radius, int(y)+24), str(lemon_area))
+                        #draw_str(
+                        #   frame, 
+                        #   (int(x)+radius, int(y)+12),
+                        #   str(h/w))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)),
+                        #   str(area_rate))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+24),
+                        #   str(lemon_area))
                         #cv2.drawContours(frame,[box],0,(0,255,0),2)
 
     #Find Bananas
@@ -284,9 +339,18 @@ while(1):
                     area_rate = w*h/banana_area # 1.7
                     if 1.2 < area_rate < 2.9:
                         bananas.append(cnt)
-                        #draw_str(frame, (int(x)+radius, int(y)), str(h/w))
-                        #draw_str(frame, (int(x)+radius, int(y)+24), str(banana_area))
-                        #draw_str(frame, (int(x)+radius, int(y)+12), str(area_rate)) 
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)),
+                        #   str(h/w))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+24),
+                        #   str(banana_area))
+                        #draw_str(
+                        #   frame,
+                        #   (int(x)+radius, int(y)+12),
+                        #   str(area_rate)) 
                         # cv2.drawContours(frame,[box],0,(0,255,0),2)         
 
     cv2.namedWindow('Frame')
