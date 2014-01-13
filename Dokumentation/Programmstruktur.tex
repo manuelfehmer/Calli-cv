@@ -70,6 +70,13 @@ Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, we
 \subsubsection{Filter}
 
 Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Opening - Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  \\
+\lstset{language=Python}
+\begin{lstlisting}[]
+    # Opening
+    thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_OPEN, kernel)
+    # Closing
+    thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_CLOSE, kernel)
+\end{lstlisting}
 
 \textbf{Konturerkennung}
 %beschreibung der Konturerkennung vllt. an Hand der Skrips
@@ -85,98 +92,59 @@ Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Op
 \subsection{Formsegmentierung}
 
 Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es notwendig die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
-
-\textbf{Erdbeere}
-
 \begin{itemize}
     \item Größe der Fläche
     \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
-
+Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden Bereich zu verkleinern. 
+Zur Justierung der Parameter werden WErte an den Konturen ausgegeben.
 \lstset{language=Python}
 \begin{lstlisting}[]
-# Find Strawberries
-    strawberries = []
-    if len(strawberry_contours) > 0:
-        for cnt in strawberry_contours:
+    # Find Bananas
+    bananas = [ ]
+    for cnt in banana_contours:
 
-            strawberry_area = cv2.contourArea(cnt)
-            (x_c,y_c),radius = cv2.minEnclosingCircle(cnt)
+        banana_area = cv2.contourArea(cnt)
+        (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
 
-            center = (int(x_c),int(y_c))
-            radius = int(radius)
-            rect = cv2.minAreaRect(cnt)
-            pos, size, theta = rect
-            box = cv2.cv.BoxPoints(rect)
-            box = np.int0(box)
-            x, y = pos
-            w, h = size
-            
-            if 600 < strawberry_area < 1300:
-                if 0.7 < h/w < 1.4:
-                    area_rate = w*h/strawberry_area # 1.6
-                    if 1.3 < area_rate < 1.8:
-                        strawberries.append(cnt)
-                        #draw_str(
-                        #   frame,
-                        #   (int(x)+radius, int(y)+12),
-                        #    str(h/w))
-                        #draw_str(
-                        #   frame,
-                        #   (int(x)+radius, int(y)+24),
-                        #    str(strawberry_area))
-                        #draw_str(
-                        #   frame,
-                        #   (int(x)+radius, int(y)), 
-                        #   str(area_rate))
-                        #cv2.drawContours(
-                        #   frame,[box],0,(0,255,0),2)
+        center = int(x_c), int(y_c)
+        radius = int(radius)
+        rect = cv2.minAreaRect(cnt)
+        pos, size, theta = rect
+        box = cv2.cv.BoxPoints(rect)
+        box = np.int0(box)
+        x, y = pos
+        w, h = size
+
+        if 300 < banana_area < 900:
+            if h < w:
+                w, h = h, w
+            if 2.0 < h / w < 3.9:
+                area_rate = w * h / banana_area  # 1.7
+                if 1.2 < area_rate < 2.9:
+                    bananas.append(cnt)
+                    # draw_str(
+                    #   frame,
+                    #   (int(x)+radius, int(y)),
+                    #   str(h/w))
+                    # draw_str(
+                    #   frame,
+                    #   (int(x)+radius, int(y)+24),
+                    #   str(banana_area))
+                    # draw_str(
+                    #   frame,
+                    #   (int(x)+radius, int(y)+12),
+                    #   str(area_rate))
+                    # cv2.drawContours(frame,[box],0,(0,255,0),2)
 \end{lstlisting}
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
-    \caption[]{Erdbeeren}
-    \label{fig:Erdbeeren03}
+    \includegraphics[width=\textwidth]{Abbildungen/Bananen03}
+    \caption[]{Erkannte Bananen mit ausgegebenen Werten der Konturen}
+    \label{fig:Bananen03}
 \end{figure}
 
-\textbf{Pflaume}
-
-\begin{itemize}
-    \item Größe der Fläche
-    \item Radius des kleinst - möglich umgebenden Kreises
-    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
-     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
-\end{itemize}
-
-\textbf{Limone}
-
-\begin{itemize}
-    \item Größe der Fläche
-    \item Radius des kleinst - möglich umgebenden Kreises
-    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
-     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
-\end{itemize}
-
-\textbf{Banane}
-
-\begin{itemize}
-    \item Größe der Fläche
-    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
-    \item Längenunterschied der Seiten des kleinst - möglich umgebenden Rechteckes
-    \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
-\end{itemize}
-
 Die gefunden Früchte werden gezählt. Wenn genau fünf Früchte von einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. Auf die Glocke fertig - los!
-
-
-
-
-
-
-
-%Ich würde sagen hier ruhig den Farbraum erklären, oder? Sollen wir ein Kapitel Hintergründe machen? Also quasi Hintergrundwissen - ?
-
- 
-
 
