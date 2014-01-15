@@ -104,7 +104,7 @@ while(1):
 
     # read the frames
     _, frame = cap.read()
-
+    # frame = cv2.imread("")
     # transform frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
