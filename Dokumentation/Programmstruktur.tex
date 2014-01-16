@@ -36,21 +36,29 @@ Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgang
     # transform frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 \end{lstlisting}
-In OpenCV wird der Farbwinkel mit 8Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8Bit von 0 bis 255 dargestellt.
+In OpenCV wird der Farbwinkel mit 8~Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8~Bit von 0 bis 255 dargestellt.
 Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt. 
 
 \begin{itemize}
-    \item Erdbeere - rot - HSV(3, 73\%, 70\%)
-    \item Pflaume - lila - HSV(329, 68\%, 45\%)
-    \item Limone - hellgrün - HSV(93, 64\%, 57\%)
-    \item Banane - gelb - HSV(53, 72\%, 69\%)
+    \item Erdbeere - rot - HSV~(3, 73\%, 70\%)
+    \item Pflaume - lila - HSV~(329, 68\%, 45\%)
+    \item Limone - hellgrün - HSV~(93, 64\%, 57\%)
+    \item Banane - gelb - HSV~(53, 72\%, 69\%)
 \end{itemize}
 
-Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
+Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler, darstellt in Abbildung ~\ref{fig:Regler}, eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\textwidth]{Abbildungen/Regler02}
+    \caption[Regler]{Schieberegler}
+    \label{fig:Regler}
+\end{figure}
 
 \subsubsection{Schwellwertverfahren}
 
-Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt.
+Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt. Im weiteren Bericht wird die Vorgehensweise am Beispiel der Erdbeeren erläutert. 
+
 Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
 \lstset{language=Python}
 \begin{lstlisting}[]
