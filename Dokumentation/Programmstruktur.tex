@@ -57,7 +57,7 @@ Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibri
 
 \subsubsection{Schwellwertverfahren}
 
-Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt. Im weiteren Bericht wird die Vorgehensweise am Beispiel der Erdbeeren erläutert. 
+Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt. Im weiteren Bericht wird die Vorgehensweise jeweils an einem Fruchtbeispiel, welches besonders ist, erläutert. 
 
 Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
 \lstset{language=Python}
@@ -86,8 +86,9 @@ Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Op
     thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_CLOSE, kernel)
 \end{lstlisting}
 
-\textbf{Konturerkennung}
+\subsection{Konturerkennung}
 %beschreibung der Konturerkennung vllt. an Hand der Skrips
+Nach der Vereinzelung jeder Frucht werden die gefundenen Bildpunkte zu Segmenten zusammengefasst und mit einer Kontur umgeben. 
 
 \lstset{language=Python}
 \begin{lstlisting}[]
