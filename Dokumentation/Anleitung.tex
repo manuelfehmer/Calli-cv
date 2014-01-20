@@ -14,8 +14,13 @@ An die Anwendung wird mit dem Kürzel \lstinline{-i} die Bilddatei angehängt.
  
 Wahlweise können mit Optionskürzeln zusätzliche Informationen angezeit werden:
 \begin{itemize}
-\item \lstinline{-c} zeigt die Kontur der umschließenden Rechtecke an 
-\item \lstinline{-o} zeigt die Textausgabe der Werte in der Formsegmentierung an
+\item \lstinline{-c} zeigt in Weiß die Kontur der umschließenden Rechtecke an. 
+\item \lstinline{-o} zeigt die Textausgabe der Werte in der Formsegmentierung an.
+\begin{itemize}
+\item Verhältnis der detektierten Fläche zur Fläche des umschließenden Rechteck
+\item Verhältnis der Höhe zur Breite des umschließenden Rechtecks
+\item Größe der detectierten Fläche
+\end{itemize}
 \end{itemize}
 \begin{lstlisting}[ ]
 cd <programdir>

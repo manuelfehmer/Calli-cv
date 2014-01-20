@@ -10,7 +10,7 @@ OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Binding
 \subsection{Initialisierung}
 
 Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Laptops zu. 
-
+\begin{singlespace}
 \lstset{language=Python}
 \begin{lstlisting}[ ]
 # try to use an external webcam if possible
@@ -19,6 +19,7 @@ if not cap.isOpened():
     # use the internal cam
     cap = cv2.VideoCapture(0)
 \end{lstlisting}
+\end{singlespace}
 
 \textbf{HSV-Raum}
 
@@ -106,7 +107,7 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
 Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern. 
-
+Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 \lstset{language=Python}
 \begin{lstlisting}[ ]
     # Find Bananas
@@ -143,9 +144,6 @@ Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtec
                     #   str(area_rate))
                     # cv2.drawContours(frame,[box],0,(0,255,0),2)
 \end{lstlisting}
-
-Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben. Die folgenden vier Abbildungen zeigen entsprechende Beispielbilder zu allen verfügbaren Früchten. 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
@@ -171,9 +169,9 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben. Die fo
     \label{fig:Bananen03}
 \end{figure}
 
-\subsection{Auswertung}
+\subsection{Visualisierung}
 
-Zur Auswertung werden die gefunden Früchte automatisch gezählt. Wenn genau fünf Früchte einer Sorte erkannt werden, signalisiert ein Schriftzug auf dem Bildschirm, welche Obstsorte erkannt wird und dass die Glocke geläutet werden muss. \textbf{Auf die Glocke, fertig los!}
+Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. 
 
 \lstset{language=Python}
 \begin{lstlisting}[ ]

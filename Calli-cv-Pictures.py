@@ -157,16 +157,16 @@ for cnt in strawberry_contours:
                 if args.optional_info:
                     draw_str(
                       frame,
+                      (int(x)+radius, int(y)),
+                      str(area_rate))
+                    draw_str(
+                      frame,
                       (int(x)+radius, int(y)+12),
                        str(h/w))
                     draw_str(
                       frame,
                       (int(x)+radius, int(y)+24),
                        str(strawberry_area))
-                    draw_str(
-                      frame,
-                      (int(x)+radius, int(y)),
-                      str(area_rate))
                 if args.contours:
                     cv2.drawContours(
                       frame,[box],0,(255,255,255),1)
@@ -192,16 +192,16 @@ for cnt in plum_contours:
                 if args.optional_info:
                     draw_str(
                       frame,
+                      (int(x)+radius, int(y)),
+                      str(area_rate))
+                    draw_str(
+                      frame,
                       (int(x)+radius, int(y)+12),
                       str(h/w))
                     draw_str(
                       frame,
                       (int(x)+radius, int(y)+24),
                       str(plum_area))
-                    draw_str(
-                      frame,
-                      (int(x)+radius, int(y)),
-                      str(area_rate))
                 if args.contours:
                     cv2.drawContours(frame,[box],0,(255,255,255),1)
 
@@ -226,12 +226,12 @@ for cnt in lemon_contours:
                 if args.optional_info:
                     draw_str(
                       frame,
-                      (int(x)+radius, int(y)+12),
-                      str(h/w))
-                    draw_str(
-                      frame,
                       (int(x)+radius, int(y)),
                       str(area_rate))
+                    draw_str(
+                      frame,
+                      (int(x)+radius, int(y)+12),
+                      str(h/w))
                     draw_str(
                       frame,
                       (int(x)+radius, int(y)+24),
@@ -266,12 +266,12 @@ for cnt in banana_contours:
                       str(h/w))
                     draw_str(
                       frame,
-                      (int(x)+radius, int(y)+24),
-                      str(banana_area))
-                    draw_str(
-                      frame,
                       (int(x)+radius, int(y)+12),
                       str(area_rate))
+                    draw_str(
+                      frame,
+                      (int(x)+radius, int(y)+24),
+                      str(banana_area))
                 if args.contours:
                     cv2.drawContours(frame,[box],0,(255,255,255),1)
 
