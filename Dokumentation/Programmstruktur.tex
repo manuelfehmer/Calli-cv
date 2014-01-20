@@ -21,7 +21,7 @@ if not cap.isOpened():
 \end{lstlisting}
 \end{singlespace}
 
-\textbf{HSV-Raum}
+\subsubsection{HSV-Raum}
 
 Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild in den HSV-Raum übertragen. Jede Farbe wird mit Hilfe des Farbwinkel (hue) auf dem Farbkreis (z.B. 0$^\circ$/360$^\circ$  für rot), der Farbsättigung (saturation) in Prozent (z.B. 0\% Neutralgrau) und des Hellwertes (value) in Prozent (z.B.100\% volle Helligkeit) definiert.
 \begin{figure}[H]
@@ -86,7 +86,7 @@ Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Op
     thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_CLOSE, kernel)
 \end{lstlisting}
 
-\subsection{Konturerkennung}
+\subsubsection{Konturerkennung}
 %beschreibung der Konturerkennung vllt. an Hand der Skrips
 Nach der Vereinzelung jeder Frucht werden die gefundenen Bildpunkte zu Segmenten zusammengefasst und mit einer Kontur umgeben. 
 
