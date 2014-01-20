@@ -107,7 +107,7 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
 Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern. 
-Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
+
 \lstset{language=Python}
 \begin{lstlisting}[ ]
     # Find Bananas
@@ -147,6 +147,9 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
                     #   str(area_rate))
                     # cv2.drawContours(frame,[box],0,(0,255,0),2)
 \end{lstlisting}
+
+Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben. Die folgenden vier Abbildungen zeigen entsprechende Beispielbilder zu allen verfügbaren Früchten. 
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
@@ -172,9 +175,9 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
     \label{fig:Bananen03}
 \end{figure}
 
-\subsection{Visualisierung}
+\subsection{Visualisierung \& Auswertung}
 
-Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. 
+Zur Auswertung werden die gefunden Früchte automatisch gezählt. Wenn genau fünf Früchte einer Sorte erkannt werden, signalisiert ein Schriftzug auf dem Bildschirm, welche Obstsorte erkannt wird und dass die Glocke geläutet werden muss. Auf die Glocke, fertig los!
 
 \lstset{language=Python}
 \begin{lstlisting}[ ]
