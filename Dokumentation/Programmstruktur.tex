@@ -62,7 +62,7 @@ Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsb
 Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
 \lstset{language=Python}
 \begin{lstlisting}[ ]
-    # use Threshold for Strawberries
+  # use Threshold for Strawberries
     thresh1_low = cv2.inRange(
         hsv,
         np.array((0, lower_s_s, lower_v_s)),
@@ -71,7 +71,6 @@ Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, we
         hsv,
         np.array((180 - h_s, lower_s_s, lower_v_s)),
         np.array((180, upper_s_s, upper_v_s)))
-
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
 \end{lstlisting}
 
@@ -111,12 +110,10 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 \lstset{language=Python}
 \begin{lstlisting}[ ]
     # Find Bananas
-    bananas = [ ]
+    bananas = []
     for cnt in banana_contours:
-
         banana_area = cv2.contourArea(cnt)
         (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
-
         center = int(x_c), int(y_c)
         radius = int(radius)
         rect = cv2.minAreaRect(cnt)
@@ -125,7 +122,6 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
         box = np.int0(box)
         x, y = pos
         w, h = size
-
         if 300 < banana_area < 900:
             if h < w:
                 w, h = h, w
@@ -178,12 +174,11 @@ Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte ein
 
 \lstset{language=Python}
 \begin{lstlisting}[ ]
-    cv2.namedWindow('Frame')
+   cv2.namedWindow('Frame')
     cv2.drawContours(frame, strawberries, -1, (0, 0, 255), 2)
     cv2.drawContours(frame, plums, -1, (255, 0, 230), 2)
     cv2.drawContours(frame, lemons, -1, (0, 255, 0), 2)
     cv2.drawContours(frame, bananas, -1, (0, 255, 255), 2)
-
     if len(strawberries) == 5:
         # print "Strawberries!"
         draw_str(frame, (20, 20), "Strawberries!!!!!")
@@ -196,7 +191,6 @@ Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte ein
     if len(bananas) == 5:
         # print "Bananas!"
         draw_str(frame, (20, 80), "Bananas!!!!!")
-
     cv2.imshow('Frame', frame)
 \end{lstlisting}
 
