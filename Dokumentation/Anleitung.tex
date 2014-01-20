@@ -5,11 +5,18 @@
 \label{sec:Anleitung}
 
 \subsection{Anwendung mit Kamera-Stream}
-Um das Programm mit dem geringsten Aufwand ausführen zu können, wurde mit dem \emph{PyInstaller} aus dem Python-Programm eine exe-Anwendung erstellt.
+Um das Programm mit dem geringsten Aufwand ausführen zu können, wurde mit dem \emph{PyInstaller} aus dem Python-Programm eine exe-Anwendung erstellt. Diese Version ist auf eine Web-Cam in 40cm über der Spielfläche bei indirekter Beleuchtung eingestellt. 
+
 
 \subsection{Konsolenanwendung für Bilder}
 Für Demonstrationszwecke wurde eine Variante als Konsolenanwendung erstellt, um das Programm ohne Kamera mit Beispielbildern zu testen. 
-An die Anwendung wird mit dem Kürzel \lstinline{-i} die Bilddatei angehängt und wahlweise können mit den Optionskürzeln  \lstinline{-c} die Kontur der umschließenden Rechtecke und mit  \lstinline{-o} die Textausgabe der Werte in der Formsegmentierung angezeigt werden.
+An die Anwendung wird mit dem Kürzel \lstinline{-i} die Bilddatei angehängt.
+ 
+Wahlweise können mit Optionskürzeln zusätzliche Informationen angezeit werden:
+\begin{itemize}
+\item \lstinline{-c} zeigt die Kontur der umschließenden Rechtecke an 
+\item \lstinline{-o} zeigt die Textausgabe der Werte in der Formsegmentierung an
+\end{itemize}
 \begin{lstlisting}[ ]
 cd <programdir>
 Calli-Cv-Pictures.exe -i Testbild01.PNG -c -o
