@@ -12,7 +12,7 @@ OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Binding
 Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Laptops zu. 
 
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
 # try to use an external webcam if possible
 cap = cv2.VideoCapture(1)
 if not cap.isOpened():
@@ -61,7 +61,7 @@ Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsb
 
 Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
     # use Threshold for Strawberries
     thresh1_low = cv2.inRange(
         hsv,
@@ -79,7 +79,7 @@ Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, we
 
 Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Opening - Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  \\
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
     # Opening
     thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_OPEN, kernel)
     # Closing
@@ -91,7 +91,7 @@ Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Op
 Nach der Vereinzelung jeder Frucht werden die gefundenen Bildpunkte zu Segmenten zusammengefasst und mit einer Kontur umgeben. 
 
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
     strawberry_contours, strawberry_hierarchy = cv2.findContours(
         thresh1,
         cv2.RETR_LIST,
@@ -109,7 +109,7 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
 Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern. 
 Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
     # Find Bananas
     bananas = [ ]
     for cnt in banana_contours:
@@ -150,25 +150,25 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
-    \caption[]{Erkannte Erdbeeren mit Wertausgabe}
+    \caption[ ]{Erkannte Erdbeeren mit Wertausgabe}
     \label{fig:Erdbeeren03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Pflaumen03}
-    \caption[]{Erkannte Pflaumen mit Wertausgabe}
+    \caption[ ]{Erkannte Pflaumen mit Wertausgabe}
     \label{fig:Pflaumen03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Limetten03}
-    \caption[]{Erkannte Limonen mit Wertausgabe}
+    \caption[ ]{Erkannte Limonen mit Wertausgabe}
     \label{fig:Limetten03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Bananen03}
-    \caption[]{Erkannte Bananen mit Wertausgabe}
+    \caption[ ]{Erkannte Bananen mit Wertausgabe}
     \label{fig:Bananen03}
 \end{figure}
 
@@ -177,7 +177,7 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. 
 
 \lstset{language=Python}
-\begin{lstlisting}[]
+\begin{lstlisting}[ ]
     cv2.namedWindow('Frame')
     cv2.drawContours(frame, strawberries, -1, (0, 0, 255), 2)
     cv2.drawContours(frame, plums, -1, (255, 0, 230), 2)
