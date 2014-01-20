@@ -6,7 +6,12 @@
 
 \subsection{Anwendung mit Kamera-Stream}
 Um das Programm mit dem geringsten Aufwand ausführen zu können, wurde mit dem \emph{PyInstaller} aus dem Python-Programm eine .exe - Anwendung erstellt. Diese Version ist auf eine Webcam in 40cm über der Spielfläche bei indirekter Beleuchtung eingestellt. 
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{Abbildungen/HalliGalli01}
+    \caption[Aus]{Bildschirmausgabe der Anwendung mit Kamera-Stream}
+    \label{fig:Ausgabe}
+\end{figure}
 
 \subsection{Konsolenanwendung für Bilder}
 Für Demonstrationszwecke wurde eine Variante als Konsolenanwendung erstellt, um das Programm ohne Kamera mit Beispielbildern zu testen. 
@@ -26,3 +31,10 @@ Wahlweise können mit Optionskürzeln zusätzliche Informationen angezeigt werde
 cd <programdir>
 Calli-Cv-Pictures.exe -i Testbild01.PNG -c -o
 \end{lstlisting}
+Bei der Ausführung öffen sich vier Fenster mit den Binärbildern zu den einzelnen Früchten und ein Fenster mit dem Originalbild und den darin eingezeichneten Konturen und Texten. Wenn im Bild fünf Früchte einer Sorte detektiert wurden wird dies zusätzlich in der Konsole ausgegeben.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=8cm]{Abbildungen/Calli-Konsole}
+    \caption[Konsole]{Konsolenanwendung}
+    \label{fig:Konsole}
+\end{figure}
