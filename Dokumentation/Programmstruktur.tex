@@ -106,8 +106,8 @@ Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es
     \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
     \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
 \end{itemize}
-Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden Bereich zu verkleinern. 
-Zur Justierung der Parameter werden WErte an den Konturen ausgegeben.
+Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern. 
+Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 \lstset{language=Python}
 \begin{lstlisting}[]
     # Find Bananas
@@ -150,29 +150,32 @@ Zur Justierung der Parameter werden WErte an den Konturen ausgegeben.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Erdbeeren03}
-    \caption[]{Erkannte Erdbeeren mit ausgegebenen Werten der Konturen}
+    \caption[]{Erkannte Erdbeeren mit Wertausgabe}
     \label{fig:Erdbeeren03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Pflaumen03}
-    \caption[]{Erkannte Pflaumen mit ausgegebenen Werten der Konturen}
+    \caption[]{Erkannte Pflaumen mit Wertausgabe}
     \label{fig:Pflaumen03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Limetten03}
-    \caption[]{Erkannte Limonen mit ausgegebenen Werten der Konturen}
+    \caption[]{Erkannte Limonen mit Wertausgabe}
     \label{fig:Limetten03}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Abbildungen/Bananen03}
-    \caption[]{Erkannte Bananen mit ausgegebenen Werten der Konturen}
+    \caption[]{Erkannte Bananen mit Wertausgabe}
     \label{fig:Bananen03}
 \end{figure}
 
 \subsection{Visualisierung}
+
+Die gefunden Früchte werden automatisch gezählt. Wenn genau fünf Früchte einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. 
+
 \lstset{language=Python}
 \begin{lstlisting}[]
     cv2.namedWindow('Frame')
@@ -197,5 +200,5 @@ Zur Justierung der Parameter werden WErte an den Konturen ausgegeben.
     cv2.imshow('Frame', frame)
 \end{lstlisting}
 
-Die gefunden Früchte werden gezählt. Wenn genau fünf Früchte von einer Sorte gefunden werden, signalisiert ein Schriftzug auf dem Bildschirm, dass die Glocke geläutet werden muss. Auf die Glocke fertig - los!
+
 
