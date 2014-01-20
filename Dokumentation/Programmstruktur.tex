@@ -3,7 +3,7 @@
 \section{Programmstruktur / Methodik}
 \label{sec:Programmstruktur}
 
-Zum Lösen der Aufgabe wird die Programmiersprache \emph{Python 2.7} verwendet. In Form der Open-Source Library \emph{OpenCV} steht dazu eine leistungsstarke Bibliothek zur Bildverarbeitung zur Verfügung.
+Zum Lösen der Aufgabe wird die Programmiersprache \emph{Python 2.7}\footnote{\cite{Python}} verwendet. In Form der Open-Source Library \emph{OpenCV}\footnote{\cite{OpenCV}} steht dazu eine leistungsstarke Bibliothek zur Bildverarbeitung zur Verfügung.
 OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Bindings an.
 
 
@@ -37,7 +37,7 @@ Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgang
     # transform frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 \end{lstlisting}
-In OpenCV wird der Farbwinkel mit 8~Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8~Bit von 0 bis 255 dargestellt.
+In OpenCV\footnote{[OCV]} wird der Farbwinkel mit 8~Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8~Bit von 0 bis 255 dargestellt.
 Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt. 
 
 \begin{itemize}
