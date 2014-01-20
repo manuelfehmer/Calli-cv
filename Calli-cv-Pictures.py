@@ -24,10 +24,7 @@ if args.input_file is None:
     parser.print_help()
     exit()
 filepath = os.path.abspath(args.input_file)
-
-
 # convert to hsv and find range of colors =>(0,0,0)-(180,255,255)   #
-
 # Strawberry    HSV(3,73%,70%) =>(0, 160, 160) (6, 200, 200)        #
 # hue
 delta_h_s = 5
@@ -37,7 +34,6 @@ upper_s_s = 255
 # value
 lower_v_s = 0
 upper_v_s = 255
-
 # Plum          HSV(329,68%,45%) =>(154, 100, 70) (174, 200, 160)   #
 # hue
 delta_h_p = 10
@@ -47,7 +43,6 @@ upper_s_p = 255
 # value
 lower_v_p = 0
 upper_v_p = 255
-
 # Lemon         HSV(93,64%,57%) =>(40, 150, 160) (52, 190, 200)     #
 # hue
 delta_h_l = 7
@@ -57,7 +52,6 @@ upper_s_l = 255
 # value
 lower_v_l = 0
 upper_v_l = 206
-
 # Banana        HSV(53,72%,69%) =>(16, 120, 60) (36, 200, 255)      #
 # hue
 delta_h_b = 10
@@ -70,18 +64,12 @@ upper_v_b = 255
 
 kernel = np.ones((5, 5), np.uint8)
 
-
-
-    # read the frames
-    #_, frame = cap.read()
 print filepath
 frame = cv2.imread(filepath)
-
     # transform frame to HSV
 hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
 # use Threshold for Strawberries
-
 thresh1_low = cv2.inRange(
     hsv,
     np.array((0, lower_s_s, lower_v_s)),
@@ -127,7 +115,6 @@ thresh4 = cv2.inRange(
 thresh4 = cv2.morphologyEx(thresh4, cv2.MORPH_OPEN, kernel)
 # Closing
 thresh4 = cv2.morphologyEx(thresh4, cv2.MORPH_CLOSE, kernel)
-
 # create Binary-Frame
 thresh_banana = thresh4.copy()
 
@@ -152,10 +139,8 @@ banana_contours, banana_hierarchy = cv2.findContours(
 # Find Strawberries
 strawberries = []
 for cnt in strawberry_contours:
-
     strawberry_area = cv2.contourArea(cnt)
     (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
-
     center = int(x_c), int(y_c)
     radius = int(radius)
     rect = cv2.minAreaRect(cnt)
@@ -164,7 +149,6 @@ for cnt in strawberry_contours:
     box = np.int0(box)
     x, y = pos
     w, h = size
-
     if 600 < strawberry_area < 1300:
         if 0.7 < h / w < 1.4:
             area_rate = w * h / strawberry_area  # 1.6
@@ -190,10 +174,8 @@ for cnt in strawberry_contours:
 # Find Plums
 plums = []
 for cnt in plum_contours:
-
     plum_area = cv2.contourArea(cnt)
     (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
-
     center = int(x_c), int(y_c)
     radius = int(radius)
     rect = cv2.minAreaRect(cnt)
@@ -202,7 +184,6 @@ for cnt in plum_contours:
     box = np.int0(box)
     x, y = pos
     w, h = size
-
     if 1000 < plum_area < 1700:
         if 0.6 < h / w < 1.6:
             area_rate = w * h / plum_area  # 1.3
@@ -227,10 +208,8 @@ for cnt in plum_contours:
 # Find Lemons
 lemons = []
 for cnt in lemon_contours:
-
     lemon_area = cv2.contourArea(cnt)
     (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
-
     center = int(x_c), int(y_c)
     radius = int(radius)
     rect = cv2.minAreaRect(cnt)
@@ -239,7 +218,6 @@ for cnt in lemon_contours:
     box = np.int0(box)
     x, y = pos
     w, h = size
-
     if 600 < lemon_area < 1400:
         if 0.6 < h / w < 1.6:
             area_rate = w * h / lemon_area  # 1.2
@@ -264,10 +242,8 @@ for cnt in lemon_contours:
 # Find Bananas
 bananas = []
 for cnt in banana_contours:
-
     banana_area = cv2.contourArea(cnt)
     (x_c, y_c), radius = cv2.minEnclosingCircle(cnt)
-
     center = int(x_c), int(y_c)
     radius = int(radius)
     rect = cv2.minAreaRect(cnt)
@@ -276,7 +252,6 @@ for cnt in banana_contours:
     box = np.int0(box)
     x, y = pos
     w, h = size
-
     if 300 < banana_area < 900:
         if h < w:
             w, h = h, w
