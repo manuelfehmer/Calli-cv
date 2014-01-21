@@ -8,11 +8,9 @@ OpenCV selbst ist in C++ geschrieben, bietet jedoch entsprechende Python-Binding
 
 
 \subsection{Initialisierung}
-
-Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, so greift sie auf die interne Kamera des Laptops zu. 
+Favorisiert wird eine extern angeschlossene Webcam angesprochen. Findet die Software keine Kamera, greift sie auf die interne Kamera des Laptops zu.
 \begin{singlespace}
-\lstset{language=Python}
-\begin{lstlisting}[ ]
+\begin{lstlisting}
 # try to use an external webcam if possible
 cap = cv2.VideoCapture(1)
 if not cap.isOpened():
@@ -21,24 +19,25 @@ if not cap.isOpened():
 \end{lstlisting}
 \end{singlespace}
 
-\subsubsection{HSV-Raum}
 
-Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild in den HSV-Raum übertragen. Jede Farbe wird mit Hilfe des Farbwinkel (hue) auf dem Farbkreis (z.B. 0$^\circ$/360$^\circ$  für rot), der Farbsättigung (saturation) in Prozent (z.B. 0\% Neutralgrau) und des Hellwertes (value) in Prozent (z.B.100\% volle Helligkeit) definiert.
+\subsubsection{HSV-Raum}
+Um die einzelnen Früchte sicher detektieren zu können, wird zuerst das Ausgangsbild in den HSV-Raum übertragen. Jede Farbe wird mit Hilfe des Farbwinkel (hue) auf dem Farbkreis (z.B. $0^\circ$/360$^\circ$  für rot), der Farbsättigung (saturation) in Prozent (z.B. $0\%$ Neutralgrau) und des Hellwertes (value) in Prozent (z.B. $100\%$ volle Helligkeit) definiert.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{Abbildungen/HSV_color}
     \caption[HSV]{HSV-Farbraum}
     \label{fig:HSV-Farbraum}
 \end{figure}
-\lstset{language=Python}
-\begin{lstlisting}[]
+\newpage
+\begin{lstlisting}
     # read the frames
     _, frame = cap.read()
     # transform frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 \end{lstlisting}
+
 In OpenCV\footnote{[OCV]} wird der Farbwinkel mit 8~Bit im Bereich von 0 bis 179, die Farbsättigung mit vollen 8Bit von 0 bis 255 und die Helligkeit mit vollen 8~Bit von 0 bis 255 dargestellt.
-Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt. 
+Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest definiert. Die Bereiche zur Filterung werden entsprechend darum festgelegt.
 
 \begin{itemize}
     \item Erdbeere - rot - HSV~(3, 73\%, 70\%)
@@ -47,7 +46,7 @@ Für die Farben der Früchte des Halli Galli Spiels ist der HSV-Raum fest defini
     \item Banane - gelb - HSV~(53, 72\%, 69\%)
 \end{itemize}
 
-Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler, darstellt in Abbildung ~\ref{fig:Regler}, eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist. 
+Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibrierung über Schieberegler, darstellt in Abbildung ~\ref{fig:Regler}, eingestellt werden. Abhängig von der Beleuchtung und der verwendeten Kamera variieren diese, sodass eine Anpassung zum Beginn des Prozesses sinnvoll ist.
 
 \begin{figure}[H]
     \centering
@@ -58,11 +57,10 @@ Minimum - und Maximumwert für die Farbbereiche der Früchte können zur Kalibri
 
 \subsubsection{Schwellwertverfahren}
 
-Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt. Im weiteren Bericht wird die Vorgehensweise jeweils an einem Fruchtbeispiel, welches besonders ist, erläutert. 
+Mit Hilfe einer Segmentierung über ein Schwellwertverfahrens wird das Ausgangsbild für jede Fruchtsorte gefiltert und jeweils ein Binärbild erstellt. Im weiteren Bericht wird die Vorgehensweise jeweils an einem Fruchtbeispiel, welches besonders ist, erläutert.
 
-Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließen bitweise mit ODER zu einem verknüpft werden.
-\lstset{language=Python}
-\begin{lstlisting}[ ]
+Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, werden hier zwei Schwellwertoperationen durchgeführt und diese anschließend bitweise mit ODER verknüpft.
+\begin{lstlisting}
   # use Threshold for Strawberries
     thresh1_low = cv2.inRange(
         hsv,
@@ -75,11 +73,10 @@ Da bei den Erdbeeren die Farbe Rot an den Grenzen des Farbwinkelwertes liegt, we
     thresh1 = cv2.bitwise_or(thresh1_low, thresh1_high)
 \end{lstlisting}
 
-\subsubsection{Filter}
 
-Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Opening - Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening lokale Störungen durch helle Bildpunkte.  \\
-\lstset{language=Python}
-\begin{lstlisting}[ ]
+\subsubsection{Filter}
+Für jede Frucht wird das Ausgangsbild mit einem Closing-Operator und einem Opening-Operator gefiltert. Während durch das Closing dunkle Störungen im Bild unterdrückt werden, vermindert das Opening Probleme bei der Trennung dicht beieinander liegender Objekte.
+\begin{lstlisting}
     # Opening
     thresh3 = cv2.morphologyEx(thresh3, cv2.MORPH_OPEN, kernel)
     # Closing
@@ -88,28 +85,25 @@ Für jede Frucht wird das Ausgangsbild mit einem Closing - Operator und einem Op
 
 \subsubsection{Konturerkennung}
 %beschreibung der Konturerkennung vllt. an Hand der Skrips
-Nach der Vereinzelung jeder Frucht werden die gefundenen Bildpunkte zu Segmenten zusammengefasst und mit einer Kontur umgeben. 
-
-\lstset{language=Python}
-\begin{lstlisting}[ ]
+Nach der Vereinzelung der Früchte werden deren Konturen ermittelt.
+\begin{lstlisting}
     strawberry_contours, strawberry_hierarchy = cv2.findContours(
         thresh1,
         cv2.RETR_LIST,
         cv2.CHAIN_APPROX_SIMPLE)
 \end{lstlisting}
 
-\subsection{Formsegmentierung}
 
-Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es notwendig die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
+\subsection{Formsegmentierung}
+Wenn alle Pixel in den Farben der Früchte entdeckt und segmentiert sind, ist es notwendig, die Form der gefundenen Segmente zu untersuchen. Dazu werden für jede Frucht verschiedene geometrische Verhältnisse betrachtet.
 \begin{itemize}
     \item Größe der Fläche
-    \item Seitenverhältnis des kleinst - möglich umgebenden Rechteckes
-    \item Verhältnis Größe der Fläche zu Größe des kleinst - möglich umgebenden Rechteckes
+    \item Seitenverhältnis des kleinstmöglichen umgebenden Rechteckes
+    \item Verhältnis Größe der Fläche zu Größe des kleinstmöglichen umgebenden Rechteckes
 \end{itemize}
-Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern. 
+Im Fall der Bananen muss zusätzlich die Ausrichtung des umschließenden Rechtecks überprüft werden, um den zutreffenden einstellbaren Filterbereich zu verkleinern.
 Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
-\lstset{language=Python}
-\begin{lstlisting}[ ]
+\begin{lstlisting}
     # Find Bananas
     bananas = []
     for cnt in banana_contours:
@@ -171,11 +165,10 @@ Zur Justierung der Parameter werden die Werte an den Konturen ausgegeben.
 
 \subsection{Auswertung}
 
-Zur Auswertung werden die gefunden Früchte automatisch gezählt. Werden genau fünf Früchte einer Sorte gefunden, signalisiert ein Schriftzug auf dem Bildschirm, welche Frucht gefunden wurde und dass die Glocke geläutet werden muss. \textbf{Auf die Glocke, fertig los!}
+Zur Auswertung werden die gefunden Früchte automatisch gezählt. Werden genau fünf Früchte einer Sorte gefunden, signalisiert ein Schriftzug auf dem Bildschirm, welche Frucht gefunden wurde und dass die Glocke geläutet werden muss. \textbf{``Auf die Glocke, fertig los!''}
 
-\lstset{language=Python}
-\begin{lstlisting}[ ]
-   cv2.namedWindow('Frame')
+\begin{lstlisting}
+    cv2.namedWindow('Frame')
     cv2.drawContours(frame, strawberries, -1, (0, 0, 255), 2)
     cv2.drawContours(frame, plums, -1, (255, 0, 230), 2)
     cv2.drawContours(frame, lemons, -1, (0, 255, 0), 2)
