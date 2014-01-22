@@ -7,13 +7,14 @@
 \subsection{Anwendung mit Kamera-Stream}
 
 Um das Programm mit dem geringsten Aufwand ausführen zu können, wurde mit dem \emph{PyInstaller} aus dem Python-Programm eine .exe - Anwendung erstellt. Diese Version ist auf eine Webcam in 40cm über der Spielfläche bei indirekter Beleuchtung eingestellt, siehe Kapitel~\ref{sub:Aufbau}.
+Mit \lstinline{ESC} lässt sich die Anwendung beenden.
 \begin{figure}[H]
     \centering
     \includegraphics[width=15cm]{Abbildungen/HalliGalli01}
     \caption[Aus]{Bildschirmausgabe der Anwendung mit Kamera-Stream}
     \label{fig:Ausgabe}
 \end{figure}
-Mit \lstinline{ESC} lässt sich die Anwendung beenden.
+
 
 \subsection{Konsolenanwendung für Bilder}
 Für Demonstrationszwecke wurde eine Variante als Konsolenanwendung erstellt, um das Programm ohne Kamera mit Beispielbildern zu testen.
@@ -38,7 +39,7 @@ Calli-Cv-Pictures.exe -i Testbild01.PNG -c -o
 \end{singlespace}
 Bei der Ausführung öffnen sich vier Fenster mit den Binärbildern zu den einzelnen Früchten und ein Fenster mit dem Originalbild und den darin eingezeichneten Konturen und Texten.
 Wenn im Bild fünf Früchte einer Sorte detektiert werden wird dies zusätzlich in der Konsole ausgegeben.
-
+Nach dem Drücken einer beliebigen Taste schließt sich die Anwendung.
 \begin{figure}[H]
     \centering
     \includegraphics[width=15cm]{Abbildungen/Calli-Konsole}
@@ -46,4 +47,4 @@ Wenn im Bild fünf Früchte einer Sorte detektiert werden wird dies zusätzlich 
     \label{fig:Konsole}
 \end{figure}
 
-Nach dem Drücken einer beliebigen Taste schließt sich die Anwendung.
+
